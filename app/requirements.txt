@@ -1,0 +1,7 @@
+flake8
+Flask
+Flask-DebugToolbar
+Flask-Login
+Flask-Migrate
+Flask-SQLAlchemy
+python-dotenv
