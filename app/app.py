@@ -1,5 +1,9 @@
 from flask import Flask
-app = Flask(__name__)
+
+def create_app():
+    return Flask(__name__)
+
+app = create_app()
 
 @app.route('/')
 def richard():
