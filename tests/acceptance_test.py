@@ -18,6 +18,16 @@ def test_login_with_right_args(client):
                                 follow_redirects=True)
     assert response.status_code == 200
 
+
+def test_register_with_no_body(client):
+    response = client.post('/user/')
+    assert response.status_code == 400
+
+def test_register_with_username_already_in_use(client):
+    response = client.post('/user',data=dict(username='admin', password='admin'),
+                                follow_redirects=True)
+    assert response.status_code == 400    
+
 def test_upload_video_with_no_token(client):
     response = client.post('/upload', follow_redirects=True)
     assert response.status_code == 403
