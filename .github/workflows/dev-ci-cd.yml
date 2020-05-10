@@ -24,6 +24,16 @@ jobs:
     - name: Run Tests
       run: |
         coverage run -m pytest
+    
+    - name: Deploy to GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v1
+      with:
+        target_branch: gh-pages
+        build_dir: htmlcov
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
   build:
 
