@@ -10,4 +10,4 @@
 
 # python app.py
 # flask run
-gunicorn -b 0.0.0.0 run:app 
+gunicorn -b 0.0.0.0:$PORT run:app 
