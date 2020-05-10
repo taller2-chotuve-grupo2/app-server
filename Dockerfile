@@ -17,6 +17,7 @@ RUN pip install -r requirements.txt
 
 
 # add app
+COPY ./app /usr/src/app
 COPY ./entrypoint.sh /usr/src/entrypoint.sh
 COPY ./run.py /usr/src/run.py
 
