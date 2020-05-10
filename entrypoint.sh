@@ -10,4 +10,4 @@
 
 # python app.py
 # flask run
-gunicorn app:create_app
+gunicorn -b 0.0.0.0 run:app 
