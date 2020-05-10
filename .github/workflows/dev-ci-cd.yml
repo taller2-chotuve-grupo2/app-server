@@ -24,6 +24,9 @@ jobs:
     - name: Run Tests
       run: |
         coverage run -m pytest
+    - name: Generate html
+      run: |
+        coverage html
     
     - name: Deploy to GitHub Pages
       if: success()
