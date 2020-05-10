@@ -8,10 +8,8 @@ valid_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwi
 @bp.route('/upload/', methods=["POST","GET"])
 def upload():
     token = request.headers.get('authorization')
-    if token == valid_token:
-        return "OK", 201
     response = requests.post(auth_endpoint, json={"token":token})
     if response.status_code == 200:
-        return response.json(), 200
+        return response.json(), 201
     else:
         return "BAD LOGIN", 403
