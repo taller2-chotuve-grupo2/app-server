@@ -9,4 +9,5 @@
 # echo "PostgreSQL started"
 
 # python app.py
-flask run
+# flask run
+gunicorn app:app
