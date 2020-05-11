@@ -25,8 +25,8 @@ def register():
         return "BAD LOGIN", 400
     username = json_request['username']
     password = json_request['password']
-    email = request.form['email']
-    print (username, password, email)
+    email = json_request['email']
+    print(username, password, email)
     response = requests.post(register_endpoint, json={"username":username,"password":password,"email":email})
     if response.status_code == 200:
         return 'OK', 200
