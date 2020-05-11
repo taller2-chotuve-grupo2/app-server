@@ -14,7 +14,7 @@ def test_login_with_no_body(client):
 
 
 def test_login_with_right_args(client):
-    response = client.post('/login',data=dict(username='admin', password='admin'),
+    response = client.post('/login', json={"username":'admin',"password":'admin'},
                                 follow_redirects=True)
     assert response.status_code == 200
 

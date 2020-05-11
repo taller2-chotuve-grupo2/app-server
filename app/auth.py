@@ -7,7 +7,9 @@ register_endpoint = "https://chotuve-grupo2-auth-server-dev.herokuapp.com/user/"
 
 @bp.route('/login/', methods=["POST","GET"])
 def login():
-    json_request = request.get_json() 
+    json_request = request.get_json()
+    if json_request == None:
+        return "BAD LOGIN", 400
     username = json_request['username']
     password = json_request['password']
     response = requests.post(login_endpoint, json={"username":username,"password":password})
@@ -19,6 +21,8 @@ def login():
 @bp.route('/user/', methods=["POST"])
 def register():
     json_request = request.get_json()
+    if json_request == None:
+        return "BAD LOGIN", 400
     username = json_request['username']
     password = json_request['password']
     email = request.form['email']
