@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from services.loginService import login_user
 import requests
 
 bp = Blueprint('auth', __name__)
@@ -12,7 +13,7 @@ def login():
         return "BAD LOGIN", 400
     username = json_request['username']
     password = json_request['password']
-    response = requests.post(login_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"username":username,"password":password})
+    response = login_user(username, password)
     if response.status_code == 200:
         return response.json(), 200
     else:
