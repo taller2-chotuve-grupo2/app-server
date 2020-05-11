@@ -18,8 +18,9 @@ def login():
 
 @bp.route('/user/', methods=["POST"])
 def register():
-    username = request.form['username']
-    password = request.form['password']
+    json_request = request.get_json()
+    username = json_request['username']
+    password = json_request['password']
     email = request.form['email']
     print (username, password, email)
     response = requests.post(register_endpoint, json={"username":username,"password":password,"email":email})
