@@ -2,7 +2,6 @@ from unittest.mock import Mock, patch
 from services.loginService import login_user
 import requests
 
-login_endpoint = "https://chotuve-grupo2-auth-server-dev.herokuapp.com/login/"
 
 @patch('services.loginService.requests.post')
 def test_login_service_status_200(mock_post):
@@ -31,3 +30,12 @@ def test_login_service_returns_token(mock_post):
     print(response.json())
     assert response.json() == token
 
+@patch('services.loginService.requests.post')
+def test_login_service_bad_login(mock_post):
+    mock_post.return_value.ok = True
+    mock_post.return_value.status_code = 400
+
+    username = "BAD_RICHARD"
+    password = "BAD_RICHARD"
+    response = login_user(username, password)
+    assert response.status_code == 400
