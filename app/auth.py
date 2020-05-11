@@ -12,7 +12,7 @@ def login():
         return "BAD LOGIN", 400
     username = json_request['username']
     password = json_request['password']
-    response = requests.post(login_endpoint, json={"username":username,"password":password})
+    response = requests.post(login_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"username":username,"password":password})
     if response.status_code == 200:
         return response.json(), 200
     else:
@@ -27,7 +27,7 @@ def register():
     password = json_request['password']
     email = request.form['email']
     print (username, password, email)
-    response = requests.post(register_endpoint, json={"username":username,"password":password,"email":email})
+    response = requests.post(register_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"username":username,"password":password,"email":email})
     if response.status_code == 200:
         return 'OK', 200
     else:
