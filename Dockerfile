@@ -15,12 +15,13 @@ COPY ./app/requirements.txt /usr/src/app/requirements.txt
 # install requirements
 RUN pip install -r requirements.txt
 
+COPY . /usr/src
 
-# add app
-COPY ./app /usr/src/app
-COPY ./services /usr/src/services
-COPY ./entrypoint.sh /usr/src/entrypoint.sh
-COPY ./run.py /usr/src/run.py
+# # add app
+# COPY ./app /usr/src/app
+# COPY ./services /usr/src/services
+# COPY ./entrypoint.sh /usr/src/entrypoint.sh
+# COPY ./run.py /usr/src/run.py
 
 WORKDIR /usr/src
 RUN cd '/usr/src'
