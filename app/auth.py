@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from services.loginService import login_user
+from services.registerService import register_user
 import requests
 
 bp = Blueprint('auth', __name__)
@@ -27,8 +28,7 @@ def register():
     username = json_request['username']
     password = json_request['password']
     email = json_request['email']
-    print(username, password, email)
-    response = requests.post(register_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"username":username,"password":password,"email":email})
+    response = register_user(username, password, email)
     if response.status_code == 200:
         return 'OK', 200
     else:
