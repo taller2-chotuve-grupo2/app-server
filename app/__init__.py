@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_file, send_from_directory
 
 def create_app():
     
@@ -12,5 +12,17 @@ def create_app():
     def richard():
         return "Richard!"
 
+    @app.route('/docs')
+    def docs():
+        return send_file('../public/index.html')
 
+    @app.route('/javascripts/<path:path>')
+    def send_js(path):
+        return send_from_directory('../public/javascripts', path)
+
+    @app.route('/stylesheets/<path:path>')
+    def send_styles(path):
+        return send_from_directory('../public/stylesheets', path)
+    
+    
     return app

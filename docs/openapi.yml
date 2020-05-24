@@ -1,0 +1,392 @@
+openapi: 3.0.1
+info:
+  title: Chotuve App Server
+  description: 'Api para manejar recursos desde el app server'
+  version: 1.0.0
+externalDocs:
+  description: Enunciado
+  url: https://taller-de-programacion-2.github.io/2020-04-16-trabajo-practico/
+servers:
+- url: https://app-server-staging-fiuba.herokuapp.com/
+tags:
+- name: video
+  description: Upload and get Videos
+
+- name: comments
+  description: Upload and get comments on Videos
+
+- name: reactions
+  description: Upload and get reactions on videos
+
+paths:
+  /video/{videoId}:
+    get:
+      parameters:
+      - name: videoId
+        in: path
+        description: ID of video to return
+        required: true
+        schema:
+          type: string
+      tags:
+      - video
+      summary: Get an existing video
+      operationId: getVideo
+      responses:
+        '400':
+          description: Invalid ID supplied
+          content: {}
+        '404':
+          description: Video not found
+          content: {}
+        '405':
+          description: Validation exception
+          content: {}
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+      security:
+      - api_key:
+        - write
+        - read
+        
+  /video/{videoId}/comment:
+    get:
+      parameters:
+      - name: videoId
+        in: path
+        description: ID of Video to return comments
+        required: true
+        schema:
+          type: string
+      tags:
+      - comments
+      summary: Get comments of an existing video
+      operationId: getComments
+      responses:
+        '400':
+          description: Invalid ID supplied
+          content: {}
+        '404':
+          description: Comments not found
+          content: {}
+        '405':
+          description: Validation exception
+          content: {}
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentResponse'
+    post:
+      parameters:
+      - name: videoId
+        in: path
+        description: ID of Video to return comments
+        required: true
+        schema:
+          type: string
+      tags:
+      - comments
+      summary: Add a new comment to the server
+      operationId: addComment
+      requestBody:
+        description: Comment object that needs to be added to the server
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      responses:
+        '400':
+          description: Invalid input
+          content: {}
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentResponse'
+      security:
+      - api_key:
+        - write
+        - read
+  /video/{videoId}/reaction:
+    get:
+      parameters:
+      - name: videoId
+        in: path
+        description: ID of Video to return comments
+        required: true
+        schema:
+          type: string
+      tags:
+      - reactions
+      summary: Get reactions of an existing video
+      operationId: getReactions
+      responses:
+        '400':
+          description: Invalid ID supplied
+          content: {}
+        '404':
+          description: Comments not found
+          content: {}
+        '405':
+          description: Validation exception
+          content: {}
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReactionResponse'
+    post:
+      parameters:
+      - name: videoId
+        in: path
+        description: ID of Video to return comments
+        required: true
+        schema:
+          type: string
+      tags:
+      - reactions
+      summary: Add a new comment to the server
+      operationId: addReaction
+      requestBody:
+        description: Comment object that needs to be added to the server
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reaction'
+        required: true
+      responses:
+        '400':
+          description: Invalid input
+          content: {}
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReactionResponse'
+      security:
+      - api_key:
+        - write
+        - read
+    
+
+  /video:
+    get:
+      tags:
+      - video
+      summary: Get Feed videos
+      operationId: getVideoByUser
+      responses:
+        '400':
+          description: Invalid ID supplied
+          content: {}
+        '404':
+          description: Pet not found
+          content: {}
+        '405':
+          description: Validation exception
+          content: {}
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VideoSaved'
+    post:
+      tags:
+      - video
+      summary: Add a new video to the server
+      operationId: addVideo
+      requestBody:
+        description: Video object that needs to be added to the server
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoSaved'
+        required: true
+      responses:
+        '400':
+          description: Invalid input
+          content: {}
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoResponse'
+      security:
+      - api_key:
+        - write
+        - read
+  /video/user/{userId}:
+    get:
+      parameters:
+      - name: userId
+        in: path
+        description: ID of Video to return
+        required: true
+        schema:
+          type: string
+      tags:
+      - video
+      summary: Get videos by user Id
+      operationId: getVideoByUser
+      responses:
+        '400':
+          description: Invalid ID supplied
+          content: {}
+        '404':
+          description: Pet not found
+          content: {}
+        '405':
+          description: Validation exception
+          content: {}
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VideoSaved'
+          
+      security:
+      - api_key:
+        - write
+        - read
+components:
+  schemas:
+    Metadata:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+          example: Mi video
+        description:
+          type: string
+          example: Mi video video description
+        location:
+          type: string
+          example: Argentina
+        publication_timestamp:
+          type: string
+          format: date-time
+        visibility:
+          type: string
+          example: public
+ 
+    Comment:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: edgar no
+    CommentResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: string
+        message:
+          type: string
+          example: edgar no
+    Reaction:
+      required:
+      - status
+      type: object
+      properties:
+        message:
+          type: string
+          example: Me gusta
+    ReactionResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: string
+        message:
+          type: string
+          example: Me gusta          
+          
+          
+    Video:
+      required:
+      - metadata
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        name:
+          type: string
+          example: video.mp4
+        size:
+          type: integer
+          example: 300423
+        created_at:
+          type: string
+          format: date-time
+        owner:
+          type: string
+          example: Ricardino
+        file:
+          type: string
+          example: "www.server.com/media/video.mp4"
+ 
+    VideoSaved:
+      required:
+      - metadata
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        name:
+          type: string
+          example: video.mp4
+        size:
+          type: integer
+          example: 300423
+        created_at:
+          type: string
+          format: date-time
+        file:
+          type: string
+          example: "www.server.com/media/video.mp4"
+    VideoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: jsg934fd
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
