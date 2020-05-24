@@ -13,9 +13,11 @@ def upload():
     token = request.headers.get('authorization')
     response = requests.post(auth_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"token":token})
     if response.status_code == 200:
-        print("RIC")
-        current_app.logger.info("RIC")
-        requests.post(video_upload_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json=request.json)
+        current_app.logger.info(request)
+        # print(request.get_json())
+        # current_app.logger.info(request.get_json())
+        response = requests.post(video_upload_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json=request.json)
+        current_app.logger.info(response.data)
 
         return response.json(), 201
     else:

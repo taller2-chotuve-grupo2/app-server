@@ -1,6 +1,5 @@
 from flask import Blueprint, request
-from services.loginService import login_user
-from services.registerService import register_user
+from services.authService import login_user, register_user
 import requests
 
 bp = Blueprint('auth', __name__)
