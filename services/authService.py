@@ -1,7 +1,8 @@
 import requests
 
-login_endpoint = "https://chotuve-grupo2-auth-server-dev.herokuapp.com/login/"
-register_endpoint = "https://chotuve-grupo2-auth-server-dev.herokuapp.com/user/"
+auth_base_url = "https://chotuve-grupo2-auth-server-dev.herokuapp.com"
+login_endpoint = f"{auth_base_url}/login/"
+register_endpoint = f"{auth_base_url}/user/"
 
 
 def login_user(username, password):
