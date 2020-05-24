@@ -9,6 +9,6 @@ def test_upload_video_with_valid_token(client):
     headers = {
         'Authorization': '{}'.format(token)
     }
-    response = client.post('/video', headers=headers, follow_redirects=True)
+    response = client.post('/video', headers=headers, data={"title": "VIDEO1"}, follow_redirects=True)
     assert response.status_code == 201
 

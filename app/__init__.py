@@ -2,7 +2,10 @@ from flask import Flask, send_file, send_from_directory
 
 def create_app():
     
+    import logging
+    # logging.basicConfig(filename='demo.log', level=logging.DEBUG)
     app = Flask(__name__)
+    # app.logger.info("STARTED")
 
     from . import auth, media
     app.register_blueprint(auth.bp)
