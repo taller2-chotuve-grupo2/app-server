@@ -7,12 +7,46 @@ import requests
 def test_upload_video_service_status_200(mock_post):
     mock_post.return_value.ok = True
     mock_post.return_value.status_code = 200
-    
+    mock_post.return_value.json.resourceId = "123"
+
     data = {
-        "title": "VIDEO1"
+        "name": "nuevovideo.mp4",
+        "path": "www.google.com",
+        "size": "35M",
+        "owner": "1",
+        "title": "Gran video de Ricson",
+        "description": "Uno de los grandes videos de ricson",
+        "location": "Ricland",
+        "visibility": "public"
     }
     response = upload_video(data)
     assert response.status_code == 200
+    assert response.json.resourceId == "123"
+
+
+
+@patch('services.videoService.requests.post')
+def test_upload_video_service_status_400(mock_post):
+    mock_post.return_value.ok = True
+    mock_post.return_value.status_code = 400
+    mock_post.return_value.json.message = "No Owner Provided"
+
+    data = {
+        "name": "nuevovideo.mp4",
+        "path": "www.google.com",
+        "size": "35M",
+        "title": "Gran video de Ricson",
+        "description": "Uno de los grandes videos de ricson",
+        "location": "Ricland",
+        "visibility": "public"
+    }
+    
+    response = upload_video(data)
+    assert response.status_code == 400
+    assert response.json.message == "No Owner Provided"
+
+
+
 
 # @patch('services.authService.requests.post')
 # def test_login_service_bad_register(mock_post):
