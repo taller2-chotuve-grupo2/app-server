@@ -1,16 +1,35 @@
 import requests
+from exceptions.invalid_login import InvalidLogin
 
 auth_base_url = "https://chotuve-grupo2-auth-server-dev.herokuapp.com"
 login_endpoint = f"{auth_base_url}/login/"
 register_endpoint = f"{auth_base_url}/user/"
+auth_endpoint = f"{auth_base_url}/auth/"
+
+
+def make_auth_request(username, password):
+    return requests.post(login_endpoint,headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'},
+     json={"username":username,"password":password})
 
 
 def login_user(username, password):
-    response = requests.post(login_endpoint,headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'},
-     json={"username":username,"password":password})
-    return response
+    """
+        Login User must return a Token
+    """
+    response = make_auth_request(username, password)
+    if response.status_code == 201:
+        return response.json()["token"]
+    else:
+        raise InvalidLogin
 
 def register_user(username, password, email):
     response = requests.post(register_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'},
      json={"username":username,"password":password, "email":email})
     return response
+
+def verify_token(token):
+    response = requests.post(auth_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"token":token})
+    if response.status_code == 200:
+        return True
+    else:
+        return False
