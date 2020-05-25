@@ -50,8 +50,6 @@ def test_login_service_returns_token(mock_post):
     username = "RICHARD"
     password = "RICHARD"
     response = login_user(username, password)
-    print(response.status_code)
-    print(response.json())
     assert response.json() == token
 
 @patch('services.authService.requests.post')

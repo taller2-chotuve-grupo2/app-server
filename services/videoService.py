@@ -1,11 +1,18 @@
+from flask import current_app
 import requests
 
 media_base_url = "https://media-server-staging-fiuba.herokuapp.com"
-upload_video_endpoint = f"{media_base_url}/video/"
-auth_header={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}
+post_video_endpoint = f"{media_base_url}/video/"
+get_video_endpoint = f"{media_base_url}/video/"
+auth_header = {"authorization": "Basic YWxhZGRpbjpvcGVuc2VzYW1l"}
+
 
 def upload_video(data):
-    response = requests.post(upload_video_endpoint,headers=auth_header, json=data)
+    response = requests.post(post_video_endpoint, headers=auth_header, json=data)
+    return response
+
+def get_feed(user):
+    response = requests.get(get_video_endpoint, headers=auth_header)
     return response
 
 

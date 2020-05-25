@@ -4,7 +4,6 @@ def test_home_page(client):
     WHEN the '/' page is requested (GET)
     THEN check the response is valid
     """
-    # print(client.__dict__)    
     response = client.get('/')
     assert response.status_code == 200
 

@@ -1,5 +1,5 @@
 from unittest.mock import Mock, patch
-from services.videoService import upload_video
+from services.videoService import upload_video, get_feed
 import requests
 
 
@@ -46,6 +46,31 @@ def test_upload_video_service_status_400(mock_post):
     assert response.json.message == "No Owner Provided"
 
 
+
+
+@patch('services.videoService.requests.get')
+def test_get_feed_video_service_status_200(mock_get):
+    data = {
+        "name": "nuevovideo.mp4",
+        "path": "www.google.com",
+        "size": "35M",
+        "title": "Gran video de Ricson",
+        "description": "Uno de los grandes videos de ricson",
+        "location": "Ricland",
+        "visibility": "public"
+    }
+
+    user = {
+        "name":"ric",
+        "id": "1"
+    }
+    mock_get.return_value.ok = True
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.json.videos = [data, data]
+    
+    response = get_feed(user)
+    assert response.status_code == 200
+    assert response.json.videos == [data, data]
 
 
 # @patch('services.authService.requests.post')
