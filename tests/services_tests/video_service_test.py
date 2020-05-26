@@ -4,7 +4,7 @@ import requests
 import pytest
 
 
-@patch('services.video_service.make_upload_video_request')
+@patch("services.video_service.make_upload_video_request")
 def test_upload_video_service_status_200(mock_upload_request):
     mock_upload_request.return_value.status_code = 200
 
@@ -16,14 +16,13 @@ def test_upload_video_service_status_200(mock_upload_request):
         "title": "Gran video de Ricson",
         "description": "Uno de los grandes videos de ricson",
         "location": "Ricland",
-        "visibility": "public"
+        "visibility": "public",
     }
     upload_ok = upload_video(data)
     assert upload_ok == True
 
 
-
-@patch('services.video_service.make_upload_video_request')
+@patch("services.video_service.make_upload_video_request")
 def test_upload_video_service_status_400(mock_upload_request):
     mock_upload_request.return_value.status_code = 400
     mock_upload_request.return_value.json.return_value = {"message": "Owner Required"}
@@ -35,12 +34,13 @@ def test_upload_video_service_status_400(mock_upload_request):
         "title": "Gran video de Ricson",
         "description": "Uno de los grandes videos de ricson",
         "location": "Ricland",
-        "visibility": "public"
+        "visibility": "public",
     }
     with pytest.raises(BaseException):
         upload_video(data)
 
-@patch('services.video_service.make_feed_request')
+
+@patch("services.video_service.make_feed_request")
 def test_get_feed_video_service_status_200(mock_feed_request):
     mock_feed_request.return_value.status_code = 200
     data = {
@@ -51,16 +51,12 @@ def test_get_feed_video_service_status_200(mock_feed_request):
         "description": "Uno de los grandes videos de ricson",
         "location": "Ricland",
         "owner": "RICH",
-        "visibility": "public"
+        "visibility": "public",
     }
 
     mock_feed_request.return_value.json.return_value = {"videos": [data, data]}
 
-    user = {
-        "name":"ric",
-        "id": "1"
-    }
-    
+    user = {"name": "ric", "id": "1"}
+
     videos = get_feed(user)
     assert videos == [data, data]
-

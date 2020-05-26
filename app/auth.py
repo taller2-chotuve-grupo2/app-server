@@ -6,6 +6,7 @@ import requests
 
 bp = Blueprint("auth", __name__)
 
+
 @bp.route("/login/", methods=["POST", "GET"])
 def login():
     json_request = request.get_json()
@@ -18,6 +19,7 @@ def login():
         return jsonify({"token": token}), 200
     except InvalidLogin:
         return "BAD LOGIN", 400
+
 
 @bp.route("/user/", methods=["POST"])
 def register():
