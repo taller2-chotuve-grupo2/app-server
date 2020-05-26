@@ -5,8 +5,6 @@ from services.auth_service import login_user, register_user
 import requests
 
 bp = Blueprint("auth", __name__)
-login_endpoint = "https://chotuve-grupo2-auth-server-dev.herokuapp.com/login/"
-register_endpoint = "https://chotuve-grupo2-auth-server-dev.herokuapp.com/user/"
 
 @bp.route("/login/", methods=["POST", "GET"])
 def login():

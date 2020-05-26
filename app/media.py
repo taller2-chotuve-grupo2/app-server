@@ -5,10 +5,6 @@ import requests
 from flask.json import jsonify
 
 bp = Blueprint('media', __name__)
-base_auth_url = "https://chotuve-grupo2-auth-server-dev.herokuapp.com"
-base_media_url = "https://media-server-staging-fiuba.herokuapp.com"
-auth_endpoint = f"{base_auth_url}/auth/"
-video_upload_endpoint = f"{base_media_url}/video/"
 
 @bp.route('/video/', methods=["POST"])
 def upload():
