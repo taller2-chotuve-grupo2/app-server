@@ -6,7 +6,6 @@ import pytest
 
 @patch('services.video_service.make_upload_video_request')
 def test_upload_video_service_status_200(mock_upload_request):
-    mock_upload_request.return_value.ok = True
     mock_upload_request.return_value.status_code = 200
 
     data = {
