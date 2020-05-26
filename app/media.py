@@ -23,9 +23,9 @@ def upload():
 @bp.route('/video/', methods=["GET"])
 def feed():
     token = request.headers.get('authorization')
-    token_valid = auth_service.verify_token(token)
-    if not token_valid: 
-        return "UNAUTHORIZED", 403
-    else:
-        videos = get_feed()
+    try:
+        user = auth_service.verify_token(token)
+        videos = get_feed(user)
         return jsonify({"videos": videos}), 200
+    except BaseException:
+        return "UNAUTHORIZED", 403
