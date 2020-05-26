@@ -71,7 +71,7 @@ def test_get_feed_with_valid_token(mock_verify, mock_get_video, client):
         "owner": "RICH",
         "visibility": "public",
     }
-    mock_get_video.return_value.json.return_value = {"video":data}
+    mock_get_video.return_value.json.return_value = {"video": data}
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
     response = client.get(
