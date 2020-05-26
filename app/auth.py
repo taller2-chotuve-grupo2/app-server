@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
+from exceptions.invalid_login import InvalidLogin
 
-from services.authService import login_user, register_user
+from services.auth_service import login_user, register_user
 import requests
 
 bp = Blueprint("auth", __name__)
@@ -18,8 +19,7 @@ def login():
     try:
         token = login_user(username, password)
         return jsonify({"token": token}), 200
-    # except InvalidLoginException:
-    except Exception:
+    except InvalidLogin:
         return "BAD LOGIN", 400
 
     # if response.status_code == 200:
@@ -36,8 +36,8 @@ def register():
     username = json_request["username"]
     password = json_request["password"]
     email = json_request["email"]
-    response = register_user(username, password, email)
-    if response.status_code == 200:
+    register_ok = register_user(username, password, email)
+    if register_ok:
         return "OK", 200
     else:
-        return response.json(), 400
+        return "BAD REGISTER", 400

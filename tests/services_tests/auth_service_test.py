@@ -1,22 +1,22 @@
 from unittest.mock import Mock, patch
-from services.authService import register_user, login_user
+from services.auth_service import register_user, login_user
 from exceptions.invalid_login import InvalidLogin
 import pytest
 import requests
 
 
-@patch('services.authService.requests.post')
-def test_login_service_status_200(mock_post):
+@patch('services.auth_service.make_register_request')
+def test_register_service_status_200(mock_post):
     mock_post.return_value.ok = True
     mock_post.return_value.status_code = 200
 
     username = "RICHARDSON"
     password = "RICHARDSON"
     email = "RICH@RD.SON"
-    response = register_user(username, password, email)
-    assert response.status_code == 200
+    register_ok = register_user(username, password, email)
+    assert register_ok == True
 
-@patch('services.authService.requests.post')
+@patch('services.auth_service.make_register_request')
 def test_login_service_bad_register(mock_post):
     mock_post.return_value.ok = True
     mock_post.return_value.status_code = 400
@@ -24,11 +24,11 @@ def test_login_service_bad_register(mock_post):
     username = "BAD_RICHARD"
     password = "BAD_RICHARD"
     email = "BAD.RICH@RD.SON"
-    response = register_user(username, password, email)
-    assert response.status_code == 400
+    register_ok = register_user(username, password, email)
+    assert register_ok == False
 
 
-@patch('services.authService.make_auth_request')
+@patch('services.auth_service.make_auth_request')
 def test_login_service_returns_token(mock_auth_request):
     mock_auth_request.return_value.status_code = 201
     mock_auth_request.return_value.json.return_value = {"token":"123"}
@@ -38,8 +38,7 @@ def test_login_service_returns_token(mock_auth_request):
     token = login_user(username, password)
     assert token == "123"
 
-@patch('services.authService.make_auth_request')
-
+@patch('services.auth_service.make_auth_request')
 def test_login_service_bad_login(mock_auth_request):
     mock_auth_request.return_value.status_code = 400
 

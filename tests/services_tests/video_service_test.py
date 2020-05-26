@@ -73,7 +73,7 @@ def test_get_feed_video_service_status_200(mock_get):
     assert response.json.videos == [data, data]
 
 
-# @patch('services.authService.requests.post')
+# @patch('services.auth_service.requests.post')
 # def test_login_service_bad_register(mock_post):
 #     mock_post.return_value.ok = True
 #     mock_post.return_value.status_code = 400
@@ -86,7 +86,7 @@ def test_get_feed_video_service_status_200(mock_get):
 
 
 
-# @patch('services.authService.requests.post')
+# @patch('services.auth_service.requests.post')
 # def test_login_service_status_200(mock_post):
 #     mock_post.return_value.ok = True
 #     mock_post.return_value.status_code = 200
@@ -96,7 +96,7 @@ def test_get_feed_video_service_status_200(mock_get):
 #     response = login_user(username, password)
 #     assert response.status_code == 200
 
-# @patch('services.authService.requests.post')
+# @patch('services.auth_service.requests.post')
 # def test_login_service_returns_token(mock_post):
 
 #     token = {
@@ -113,7 +113,7 @@ def test_get_feed_video_service_status_200(mock_get):
 #     print(response.json())
 #     assert response.json() == token
 
-# @patch('services.authService.requests.post')
+# @patch('services.auth_service.requests.post')
 # def test_login_service_bad_login(mock_post):
 #     mock_post.return_value.ok = True
 #     mock_post.return_value.status_code = 400

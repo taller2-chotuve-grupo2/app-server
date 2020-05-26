@@ -12,6 +12,11 @@ def make_auth_request(username, password):
      json={"username":username,"password":password})
 
 
+def make_register_request(username, password, email):
+    response = requests.post(register_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'},
+     json={"username":username,"password":password, "email":email})
+    return response
+
 def login_user(username, password):
     """
         Login User must return a Token
@@ -23,9 +28,11 @@ def login_user(username, password):
         raise InvalidLogin
 
 def register_user(username, password, email):
-    response = requests.post(register_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'},
-     json={"username":username,"password":password, "email":email})
-    return response
+    response = make_register_request(username, password, email)
+    if response.status_code == 200:
+        return True
+    else:
+        return False
 
 def verify_token(token):
     response = requests.post(auth_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"token":token})

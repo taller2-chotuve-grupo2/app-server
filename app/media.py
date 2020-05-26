@@ -1,6 +1,6 @@
 from flask import Blueprint, request, current_app
 from services.videoService import upload_video, get_feed
-from services import videoService, authService
+from services import videoService, auth_service
 import requests
 
 bp = Blueprint('media', __name__)
@@ -13,7 +13,7 @@ valid_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwi
 @bp.route('/video/', methods=["POST"])
 def upload():
     token = request.headers.get('authorization')
-    token_valid = authService.verify_token(token)
+    token_valid = auth_service.verify_token(token)
     if not token_valid: 
         return "UNAUTHORIZED", 403
     else:
