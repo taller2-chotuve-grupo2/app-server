@@ -37,7 +37,7 @@ def test_upload_video_service_status_400(mock_upload_request):
         "location": "Ricland",
         "visibility": "public"
     }
-    with pytest.raises(Exception):
+    with pytest.raises(BaseException):
         upload_video(data)
 
 @patch('services.video_service.make_feed_request')

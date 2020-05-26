@@ -1,2 +1,2 @@
-class InvalidLogin(Exception):
+class InvalidLogin(BaseException):
     pass

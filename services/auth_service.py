@@ -36,11 +36,11 @@ def register_user(username, password, email):
     if response.status_code == 200:
         return True
     else:
-        return False
+        raise BaseException
 
 def verify_token(token):
     response = make_verify_request(token)
     if response.status_code == 200:
-        return True
+        return response.json()["username"]
     else:
-        return False
+        raise BaseException

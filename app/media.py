@@ -9,6 +9,8 @@ bp = Blueprint('media', __name__)
 @bp.route('/video/', methods=["POST"])
 def upload():
     token = request.headers.get('authorization')
+    if not token:
+        return "UNAUTHORIZED", 403
     token_valid = auth_service.verify_token(token)
     if not token_valid: 
         return "UNAUTHORIZED", 403
@@ -16,7 +18,7 @@ def upload():
         request_data = request.data
         data = upload_video(request.json)
         # data = video_service.upload_video(request_data)
-        return "OK", data.status_code
+        return "OK", 200
 
 @bp.route('/video/', methods=["GET"])
 def feed():
@@ -26,4 +28,4 @@ def feed():
         return "UNAUTHORIZED", 403
     else:
         videos = get_feed()
-        return jsonify({"videos": videos}), 201
+        return jsonify({"videos": videos}), 200

@@ -19,12 +19,12 @@ def upload_video(data):
     if response.status_code == 200:
         return True
     else:
-        raise Exception
+        raise BaseException
 
 def get_feed(user):
     response = make_feed_request()
     if response.status_code == 200:
         return response.json()["videos"]
     else:
-        raise Exception
+        raise BaseException
 
