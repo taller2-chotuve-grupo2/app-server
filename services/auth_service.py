@@ -17,6 +17,10 @@ def make_register_request(username, password, email):
      json={"username":username,"password":password, "email":email})
     return response
 
+def make_verify_request(token):
+    response = requests.post(auth_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"token":token})
+    return response
+
 def login_user(username, password):
     """
         Login User must return a Token
@@ -35,7 +39,7 @@ def register_user(username, password, email):
         return False
 
 def verify_token(token):
-    response = requests.post(auth_endpoint, headers={'authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'}, json={"token":token})
+    response = make_verify_request(token)
     if response.status_code == 200:
         return True
     else:

@@ -6,22 +6,25 @@ post_video_endpoint = f"{media_base_url}/video/"
 get_video_endpoint = f"{media_base_url}/video/"
 auth_header = {"authorization": "Basic YWxhZGRpbjpvcGVuc2VzYW1l"}
 
-
-def upload_video(data):
+def make_upload_video_request(data):
     response = requests.post(post_video_endpoint, headers=auth_header, json=data)
     return response
 
-def get_feed(user):
+def make_feed_request():
     response = requests.get(get_video_endpoint, headers=auth_header)
     return response
 
+def upload_video(data):
+    response = make_upload_video_request(data)
+    if response.status_code == 200:
+        return True
+    else:
+        raise Exception
 
-# def login_user(username, password):
-#     response = requests.post(login_endpoint,headers=auth_header,
-#      json={"username":username,"password":password})
-#     return response
+def get_feed(user):
+    response = make_feed_request()
+    if response.status_code == 200:
+        return response.json()["videos"]
+    else:
+        raise Exception
 
-# def register_user(username, password, email):
-#     response = requests.post(register_endpoint, headers=auth_header,
-#      json={"username":username,"password":password, "email":email})
-#     return response

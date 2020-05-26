@@ -8,7 +8,6 @@ bp = Blueprint("auth", __name__)
 login_endpoint = "https://chotuve-grupo2-auth-server-dev.herokuapp.com/login/"
 register_endpoint = "https://chotuve-grupo2-auth-server-dev.herokuapp.com/user/"
 
-
 @bp.route("/login/", methods=["POST", "GET"])
 def login():
     json_request = request.get_json()
@@ -21,12 +20,6 @@ def login():
         return jsonify({"token": token}), 200
     except InvalidLogin:
         return "BAD LOGIN", 400
-
-    # if response.status_code == 200:
-    #     return response.json(), 200
-    # else:
-    #     return "BAD LOGIN", 400
-
 
 @bp.route("/user/", methods=["POST"])
 def register():
