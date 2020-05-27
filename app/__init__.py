@@ -20,7 +20,7 @@ def create_app():
 
     @app.route("/docs")
     def docs():
-        return send_file("../public/index.html")
+        return send_file("../docs/index.html")
 
     @app.route("/javascripts/<path:path>")
     def send_js(path):
