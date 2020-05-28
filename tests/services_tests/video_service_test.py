@@ -100,7 +100,6 @@ def test_get_video_service_status_400(mock_get_video_request):
         videos = video_service.get_video("12")
 
 
-
 @patch("services.video_service.make_post_comment_request")
 def test_post_comment_service_status_200(mock_upload_request):
     mock_upload_request.return_value.status_code = 200
@@ -146,4 +145,4 @@ def test_post_reaction_service_status_400(mock_upload_request):
     }
 
     with pytest.raises(BaseException):
-        upload_ok = video_service.post_reaction(12, data)
+        video_service.post_reaction(12, data)

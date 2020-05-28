@@ -81,3 +81,43 @@ def test_get_video_with_valid_token(mock_verify, mock_get_video, client):
         follow_redirects=True,
     )
     assert response.status_code == 200
+
+
+@patch("services.video_service.make_post_comment_request")
+@patch("services.auth_service.make_verify_request")
+def test_post_comment_with_valid_token(mock_verify, mock_post_comment, client):
+    mock_verify.return_value.status_code = 200
+    mock_verify.return_value.json.return_value = {"username": "RIC"}
+    mock_post_comment.return_value.status_code = 200
+    data = {"message": "Un mensaje cualquiera"}
+    mock_post_comment.return_value.json.return_value = data
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
+    headers = {"Authorization": f"{token}"}
+    response = client.post(
+        "/video/12/comment",
+        headers=headers,
+        content_type="application/json",
+        json=data,
+        follow_redirects=True,
+    )
+    assert response.status_code == 200
+
+
+@patch("services.video_service.make_post_reaction_request")
+@patch("services.auth_service.make_verify_request")
+def test_post_reaction_with_valid_token(mock_verify, mock_post_reaction, client):
+    mock_verify.return_value.status_code = 200
+    mock_verify.return_value.json.return_value = {"username": "RIC"}
+    mock_post_reaction.return_value.status_code = 200
+    data = {"message": "Me gusta"}
+    mock_post_reaction.return_value.json.return_value = data
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
+    headers = {"Authorization": f"{token}"}
+    response = client.post(
+        "/video/12/reaction",
+        headers=headers,
+        content_type="application/json",
+        json=data,
+        follow_redirects=True,
+    )
+    assert response.status_code == 200
