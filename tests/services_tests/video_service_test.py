@@ -1,5 +1,5 @@
 from unittest.mock import Mock, patch
-from services.video_service import upload_video, get_feed, get_video
+from services import video_service
 import requests
 import pytest
 
@@ -18,7 +18,7 @@ def test_upload_video_service_status_200(mock_upload_request):
         "location": "Ricland",
         "visibility": "public",
     }
-    upload_ok = upload_video(data)
+    upload_ok = video_service.upload_video(data)
     assert upload_ok == True
 
 
@@ -37,7 +37,7 @@ def test_upload_video_service_status_400(mock_upload_request):
         "visibility": "public",
     }
     with pytest.raises(BaseException):
-        upload_video(data)
+        video_service.upload_video(data)
 
 
 @patch("services.video_service.make_feed_request")
@@ -58,7 +58,7 @@ def test_get_feed_video_service_status_200(mock_feed_request):
 
     user = {"name": "ric", "id": "1"}
 
-    videos = get_feed(user)
+    videos = video_service.get_feed(user)
     assert videos == [data, data]
 
 
@@ -78,7 +78,7 @@ def test_get_video_service_status_200(mock_get_video_request):
 
     mock_get_video_request.return_value.json.return_value = {"video": data}
 
-    videos = get_video("12")
+    videos = video_service.get_video("12")
     assert videos == data
 
 
@@ -97,4 +97,29 @@ def test_get_video_service_status_400(mock_get_video_request):
     }
 
     with pytest.raises(BaseException):
-        videos = get_video("12")
+        videos = video_service.get_video("12")
+
+
+
+@patch("services.video_service.make_post_comment_request")
+def test_post_comment_service_status_200(mock_upload_request):
+    mock_upload_request.return_value.status_code = 200
+
+    data = {
+        "message": "un comentario cualquiera",
+    }
+
+    upload_ok = video_service.post_comment(12, data)
+    assert upload_ok == True
+
+
+@patch("services.video_service.make_post_comment_request")
+def test_post_comment_service_status_400(mock_upload_request):
+    mock_upload_request.return_value.status_code = 400
+
+    data = {
+        "message": "un comentario cualquiera",
+    }
+
+    with pytest.raises(BaseException):
+        upload_ok = video_service.post_comment(12, data)

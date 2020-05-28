@@ -10,6 +10,14 @@ def get_video_endpoint(id):
     return f"{media_base_url}/video/{id}"
 
 
+def post_comment_endpoint(id):
+    return f"{media_base_url}/video/{id}/comment/"
+
+
+def post_reaction_endpoint(id):
+    return f"{media_base_url}/video/{id}/reaction/"
+
+
 auth_header = {"authorization": "Basic YWxhZGRpbjpvcGVuc2VzYW1l"}
 
 
@@ -25,6 +33,16 @@ def make_feed_request():
 
 def make_get_video_request(id):
     response = requests.get(get_video_endpoint(id), headers=auth_header)
+    return response
+
+
+def make_post_comment_request(id, data):
+    response = requests.post(post_comment_endpoint(id), headers=auth_header, json=data)
+    return response
+
+
+def make_post_reaction_request(id, data):
+    response = requests.post(post_reaction_endpoint(id), headers=auth_header, json=data)
     return response
 
 
@@ -48,5 +66,21 @@ def get_video(id):
     response = make_get_video_request(id)
     if response.status_code == 200:
         return response.json()["video"]
+    else:
+        raise BaseException
+
+
+def post_comment(id, data):
+    response = make_post_comment_request(id, data)
+    if response.status_code == 200:
+        return True
+    else:
+        raise BaseException
+
+
+def post_reaction(id, data):
+    response = make_post_reaction_request(id, data)
+    if response.status_code == 200:
+        return True
     else:
         raise BaseException
