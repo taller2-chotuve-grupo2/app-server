@@ -80,3 +80,21 @@ def test_get_video_service_status_200(mock_get_video_request):
 
     videos = get_video("12")
     assert videos == data
+
+
+@patch("services.video_service.make_get_video_request")
+def test_get_video_service_status_400(mock_get_video_request):
+    mock_get_video_request.return_value.status_code = 400
+    data = {
+        "name": "nuevovideo.mp4",
+        "path": "www.google.com",
+        "size": "35M",
+        "title": "Gran video de Ricson",
+        "description": "Uno de los grandes videos de ricson",
+        "location": "Ricland",
+        "owner": "RICH",
+        "visibility": "public",
+    }
+
+    with pytest.raises(BaseException):
+        videos = get_video("12")
