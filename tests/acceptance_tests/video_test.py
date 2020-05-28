@@ -56,7 +56,7 @@ def test_get_feed_with_valid_token(mock_verify, mock_feed, client):
 
 @patch("services.video_service.make_get_video_request")
 @patch("services.auth_service.make_verify_request")
-def test_get_feed_with_valid_token(mock_verify, mock_get_video, client):
+def test_get_video_with_valid_token(mock_verify, mock_get_video, client):
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"username": "RIC"}
     mock_get_video.return_value.status_code = 200
