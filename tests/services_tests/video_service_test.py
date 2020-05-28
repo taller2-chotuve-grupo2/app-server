@@ -123,3 +123,27 @@ def test_post_comment_service_status_400(mock_upload_request):
 
     with pytest.raises(BaseException):
         upload_ok = video_service.post_comment(12, data)
+
+
+@patch("services.video_service.make_post_reaction_request")
+def test_post_reaction_service_status_200(mock_upload_request):
+    mock_upload_request.return_value.status_code = 200
+
+    data = {
+        "message": "un comentario cualquiera",
+    }
+
+    upload_ok = video_service.post_reaction(12, data)
+    assert upload_ok == True
+
+
+@patch("services.video_service.make_post_reaction_request")
+def test_post_reaction_service_status_400(mock_upload_request):
+    mock_upload_request.return_value.status_code = 400
+
+    data = {
+        "message": "un comentario cualquiera",
+    }
+
+    with pytest.raises(BaseException):
+        upload_ok = video_service.post_reaction(12, data)
