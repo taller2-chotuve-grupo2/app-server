@@ -18,7 +18,7 @@ def test_login_with_no_body(client):
 
 @patch("services.auth_service.make_auth_request")
 def test_login_with_right_args(mock_auth_request, client):
-    mock_auth_request.return_value.status_code = 201
+    mock_auth_request.return_value.status_code = 200
     mock_auth_request.return_value.json.return_value = {"token": "123"}
     response = client.post(
         "/login", json={"username": "admin", "password": "admin"}, follow_redirects=True
