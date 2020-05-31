@@ -1,5 +1,6 @@
 import requests
 from exceptions.invalid_login import InvalidLogin
+from flask import current_app
 
 auth_base_url = "https://chotuve-grupo2-auth-server-dev.herokuapp.com"
 login_endpoint = f"{auth_base_url}/login/"
@@ -38,7 +39,8 @@ def login_user(username, password):
         Login User must return a Token
     """
     response = make_auth_request(username, password)
-    if response.status_code == 201:
+    # current_app.logger.info(response.json()["token"])
+    if response.status_code == 200:
         return response.json()["token"]
     else:
         raise InvalidLogin

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from exceptions.invalid_login import InvalidLogin
 
 from services.auth_service import login_user, register_user

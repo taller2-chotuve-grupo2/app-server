@@ -7,7 +7,7 @@ def create_app():
 
     logging.basicConfig(filename="demo.log", level=logging.DEBUG)
     app = Flask(__name__)
-    # app.logger.info("STARTED")
+    app.logger.info("STARTED APP SERVER")
 
     from . import auth, media
 
