@@ -2,20 +2,20 @@ from flask import current_app
 import requests
 
 media_base_url = "https://media-server-staging-fiuba.herokuapp.com"
-post_video_endpoint = f"{media_base_url}/video/"
-get_feed_endpoint = f"{media_base_url}/video/"
+post_video_endpoint = f"{media_base_url}/resource/"
+get_feed_endpoint = f"{media_base_url}/resource/"
 
 
 def get_video_endpoint(id):
-    return f"{media_base_url}/video/{id}"
+    return f"{media_base_url}/resource/{id}"
 
 
 def post_comment_endpoint(id):
-    return f"{media_base_url}/video/{id}/comment/"
+    return f"{media_base_url}/resource/{id}/comment/"
 
 
 def post_reaction_endpoint(id):
-    return f"{media_base_url}/video/{id}/reaction/"
+    return f"{media_base_url}/resource/{id}/reaction/"
 
 
 auth_header = {"authorization": "Basic YWxhZGRpbjpvcGVuc2VzYW1l"}
@@ -23,6 +23,7 @@ auth_header = {"authorization": "Basic YWxhZGRpbjpvcGVuc2VzYW1l"}
 
 def make_upload_video_request(data):
     response = requests.post(post_video_endpoint, headers=auth_header, json=data)
+    current_app.logger.info(response)
     return response
 
 
@@ -47,6 +48,7 @@ def make_post_reaction_request(id, data):
 
 
 def upload_video(data):
+    # current_app.logger.info(data)
     response = make_upload_video_request(data)
     if response.status_code == 200:
         return True
