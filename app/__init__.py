@@ -1,9 +1,9 @@
 from flask import Flask, send_file, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from config import Config
 
 db = SQLAlchemy()
-
 
 def create_app(config):
 
@@ -12,12 +12,10 @@ def create_app(config):
     logging.basicConfig(filename="demo.log", level=logging.DEBUG)
     app = Flask(__name__)
     app.logger.info("STARTED APP SERVER")
-    app.logger.info("RIC")
     print("RIC")
+    print(config)
     app.config.from_object(config)
-    # app.logger.info(app.config)
-
-    app.logger.info("HARD")
+    print(app.config)
     db.init_app(app)
     migrate = Migrate(app, db)
 
