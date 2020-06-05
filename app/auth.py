@@ -29,8 +29,9 @@ def register():
     username = json_request["username"]
     password = json_request["password"]
     email = json_request["email"]
-    register_ok = register_user(username, password, email)
-    if register_ok:
-        return "OK", 200
-    else:
+    try:
+        register_ok = register_user(username, password, email)
+        if register_ok:
+            return "OK", 200
+    except BaseException:
         return "BAD REGISTER", 400
