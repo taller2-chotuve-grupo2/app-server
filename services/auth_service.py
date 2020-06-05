@@ -50,7 +50,7 @@ def login_user(username, password):
 def register_user(username, password, email):
     response = make_register_request(username, password, email)
     if response.status_code == 200:
-        # user_repository.save_user(username)
+        user_repository.save_user(username)
         return True
     else:
         raise BaseException
