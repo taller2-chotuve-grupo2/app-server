@@ -23,6 +23,7 @@ def login():
 
 @bp.route("/user/", methods=["POST"])
 def register():
+    current_app.logger.info("RIC")
     json_request = request.get_json()
     if json_request == None:
         return "BAD LOGIN", 400
