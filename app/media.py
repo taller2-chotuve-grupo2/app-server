@@ -35,6 +35,7 @@ def feed():
     except BaseException:
         return "Unable to handle request", 400
 
+
 @bp.route("/video/<id>", methods=["GET"])
 def get_video(id):
     token = request.headers.get("authorization")
@@ -46,6 +47,7 @@ def get_video(id):
         return "UNAUTHORIZED", 403
     except BaseException:
         return "Unable to handle request", 400
+
 
 @bp.route("/video/<id>/comment", methods=["POST"])
 def post_comment(id):
@@ -59,6 +61,7 @@ def post_comment(id):
         return "UNAUTHORIZED", 403
     except BaseException:
         return "Unable to handle request", 400
+
 
 @bp.route("/video/<id>/reaction", methods=["POST"])
 def post_reaction(id):

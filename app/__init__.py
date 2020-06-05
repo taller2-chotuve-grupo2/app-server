@@ -3,7 +3,10 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-def create_app():
+db = SQLAlchemy()
+
+
+def create_app(config):
 
     import logging
 
@@ -11,11 +14,11 @@ def create_app():
     app = Flask(__name__)
     app.logger.info("STARTED APP SERVER")
 
-    app.config.from_object(Config)
-
-    db = SQLAlchemy(app)
+    app.config.from_object(config)
+    db.init_app(app)
     migrate = Migrate(app, db)
 
+    from app import models
     from . import auth, media
 
     app.register_blueprint(auth.bp)

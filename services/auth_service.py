@@ -1,6 +1,7 @@
 import requests
 from exceptions.invalid_login import InvalidLogin, InvalidToken
 from flask import current_app
+from repositories import user_repository
 
 auth_base_url = "https://chotuve-grupo2-auth-server-dev.herokuapp.com"
 login_endpoint = f"{auth_base_url}/login/"
@@ -8,6 +9,7 @@ register_endpoint = f"{auth_base_url}/user/"
 auth_endpoint = f"{auth_base_url}/auth/"
 
 auth_header = "Basic YWxhZGRpbjpvcGVuc2VzYW1l"
+
 
 def make_auth_request(username, password):
     return requests.post(
@@ -28,9 +30,7 @@ def make_register_request(username, password, email):
 
 def make_verify_request(token):
     response = requests.post(
-        auth_endpoint,
-        headers={"authorization": auth_header},
-        json={"token": token},
+        auth_endpoint, headers={"authorization": auth_header}, json={"token": token},
     )
     return response
 
@@ -50,6 +50,7 @@ def login_user(username, password):
 def register_user(username, password, email):
     response = make_register_request(username, password, email)
     if response.status_code == 200:
+        user_repository.save_user(username)
         return True
     else:
         raise BaseException
