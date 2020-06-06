@@ -76,7 +76,7 @@ def test_get_video_service_status_200(mock_get_video_request):
         "visibility": "public",
     }
 
-    mock_get_video_request.return_value.json.return_value = {"video": data}
+    mock_get_video_request.return_value.json.return_value = data
 
     videos = video_service.get_video("12")
     assert videos == data
