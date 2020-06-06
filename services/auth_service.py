@@ -59,6 +59,6 @@ def register_user(username, password, email):
 def verify_token(token):
     response = make_verify_request(token)
     if response.status_code == 200:
-        return response.json()["username"]
+        return response.json()["user"]
     else:
         raise InvalidToken

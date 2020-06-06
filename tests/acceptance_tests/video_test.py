@@ -11,7 +11,7 @@ def test_upload_video_with_no_token(client):
 def test_upload_video_with_valid_token(mock_verify, mock_upload, client):
     mock_upload.return_value.status_code = 200
     mock_verify.return_value.status_code = 200
-    mock_verify.return_value.json.return_value = {"username": "RIC"}
+    mock_verify.return_value.json.return_value = {"user": "RIC"}
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
     data = {"title": "video1"}
@@ -41,7 +41,7 @@ def test_get_feed_with_valid_token(mock_verify, mock_feed, client):
     }
     mock_feed.return_value.json.return_value = {"videos": [data, data]}
     mock_verify.return_value.status_code = 200
-    mock_verify.return_value.json.return_value = {"username": "RIC"}
+    mock_verify.return_value.json.return_value = {"user": "RIC"}
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
     data = dict(title="video1")
@@ -58,7 +58,7 @@ def test_get_feed_with_valid_token(mock_verify, mock_feed, client):
 @patch("services.auth_service.make_verify_request")
 def test_get_video_with_valid_token(mock_verify, mock_get_video, client):
     mock_verify.return_value.status_code = 200
-    mock_verify.return_value.json.return_value = {"username": "RIC"}
+    mock_verify.return_value.json.return_value = {"user": "RIC"}
     mock_get_video.return_value.status_code = 200
     data = {
         "id": "12",
@@ -87,7 +87,7 @@ def test_get_video_with_valid_token(mock_verify, mock_get_video, client):
 @patch("services.auth_service.make_verify_request")
 def test_post_comment_with_valid_token(mock_verify, mock_post_comment, client):
     mock_verify.return_value.status_code = 200
-    mock_verify.return_value.json.return_value = {"username": "RIC"}
+    mock_verify.return_value.json.return_value = {"user": "RIC"}
     mock_post_comment.return_value.status_code = 200
     data = {"message": "Un mensaje cualquiera"}
     mock_post_comment.return_value.json.return_value = data
@@ -107,7 +107,7 @@ def test_post_comment_with_valid_token(mock_verify, mock_post_comment, client):
 @patch("services.auth_service.make_verify_request")
 def test_post_reaction_with_valid_token(mock_verify, mock_post_reaction, client):
     mock_verify.return_value.status_code = 200
-    mock_verify.return_value.json.return_value = {"username": "RIC"}
+    mock_verify.return_value.json.return_value = {"user": "RIC"}
     mock_post_reaction.return_value.status_code = 200
     data = {"message": "Me gusta"}
     mock_post_reaction.return_value.json.return_value = data

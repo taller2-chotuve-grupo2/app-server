@@ -23,7 +23,6 @@ auth_header = {"authorization": "Basic YWxhZGRpbjpvcGVuc2VzYW1l"}
 
 def make_upload_video_request(data):
     response = requests.post(post_video_endpoint, headers=auth_header, json=data)
-    current_app.logger.info(response)
     return response
 
 
@@ -58,8 +57,7 @@ def upload_video(data):
 
 def get_feed(user):
     response = make_feed_request()
-    current_app.logger.info(response)
-
+    current_app.logger.info("GET FEED")
     if response.status_code == 200:
         return response.json()
     else:
@@ -69,7 +67,7 @@ def get_feed(user):
 def get_video(id):
     response = make_get_video_request(id)
     if response.status_code == 200:
-        return response.json()
+        return response.json()["video"]
     else:
         raise BaseException
 

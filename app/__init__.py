@@ -5,17 +5,18 @@ from config import Config
 
 db = SQLAlchemy()
 
+
 def create_app(config):
 
-    import logging
+    import logging, logging.config, yaml
 
-    logging.basicConfig(filename="demo.log", level=logging.DEBUG)
+    logging.config.dictConfig(yaml.load(open("app/logging.conf")))
+
+    # logging.basicConfig(filename="demo.log", level=logging.DEBUG)
+    # logging.config.fileConfig("logging.conf")
     app = Flask(__name__)
     app.logger.info("STARTED APP SERVER")
-    print("RIC")
-    print(config)
     app.config.from_object(config)
-    print(app.config)
     db.init_app(app)
     migrate = Migrate(app, db)
 

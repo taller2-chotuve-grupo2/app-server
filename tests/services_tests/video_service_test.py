@@ -54,7 +54,7 @@ def test_get_feed_video_service_status_200(mock_feed_request):
         "visibility": "public",
     }
 
-    mock_feed_request.return_value.json.return_value = {"videos": [data, data]}
+    mock_feed_request.return_value.json.return_value = [data, data]
 
     user = {"name": "ric", "id": "1"}
 

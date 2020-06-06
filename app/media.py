@@ -27,7 +27,9 @@ def upload():
 def feed():
     token = request.headers.get("authorization")
     try:
+        current_app.logger.info("RIC")
         user = auth_service.verify_token(token)
+        print(user)
         videos = get_feed(user)
         return jsonify({"videos": videos}), 200
     except InvalidToken:
