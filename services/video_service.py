@@ -58,8 +58,10 @@ def upload_video(data):
 
 def get_feed(user):
     response = make_feed_request()
+    current_app.logger.info(response)
+
     if response.status_code == 200:
-        return response.json()["videos"]
+        return response.json()
     else:
         raise BaseException
 
@@ -67,7 +69,7 @@ def get_feed(user):
 def get_video(id):
     response = make_get_video_request(id)
     if response.status_code == 200:
-        return response.json()["video"]
+        return response.json()
     else:
         raise BaseException
 
