@@ -7,6 +7,7 @@ import pytest
 @patch("services.video_service.make_upload_video_request")
 def test_upload_video_service_status_200(mock_upload_request):
     mock_upload_request.return_value.status_code = 200
+    mock_upload_request.return_value.json.return_value = {"id": "RICID"}
 
     data = {
         "name": "nuevovideo.mp4",
@@ -19,7 +20,7 @@ def test_upload_video_service_status_200(mock_upload_request):
         "visibility": "public",
     }
     upload_ok = video_service.upload_video(data)
-    assert upload_ok == True
+    assert upload_ok == "RICID"
 
 
 @patch("services.video_service.make_upload_video_request")

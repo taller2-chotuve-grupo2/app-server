@@ -50,7 +50,7 @@ def upload_video(data):
     # current_app.logger.info(data)
     response = make_upload_video_request(data)
     if response.status_code == 200:
-        return True
+        return response.json()["id"]
     else:
         raise BaseException
 

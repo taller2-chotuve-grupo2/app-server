@@ -10,6 +10,7 @@ def test_upload_video_with_no_token(client):
 @patch("services.auth_service.make_verify_request")
 def test_upload_video_with_valid_token(mock_verify, mock_upload, client):
     mock_upload.return_value.status_code = 200
+    mock_upload.return_value.json.return_value = {"id": "RIC"}
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"user": "RIC"}
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"

@@ -15,8 +15,8 @@ def upload():
         user = auth_service.verify_token(token)
         video_data = request.json
         video_data["owner"] = user
-        data = video_service.upload_video(video_data)
-        return "OK", 200
+        video_id = video_service.upload_video(video_data)
+        return jsonify({"id": video_id}), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
     except BaseException:
