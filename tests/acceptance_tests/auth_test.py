@@ -39,7 +39,7 @@ def test_register_with_no_body(mock_register_request, client):
 def test_register_with_username_already_in_use(mock_register_request, client):
     mock_register_request.return_value.status_code = 400
     response = client.post(
-        "/user", data=dict(username="admin", password="admin"), follow_redirects=True
+        "/user/", data=dict(username="admin", password="admin"), follow_redirects=True
     )
     assert response.status_code == 400
 
@@ -48,7 +48,7 @@ def test_register_with_username_already_in_use(mock_register_request, client):
 def test_register_with_right_args(mock_register_request, client):
     mock_register_request.return_value.status_code = 200
     response = client.post(
-        "/user",
+        "/user/",
         json={"username": "adminadmin", "password": "admin", "email": "test@test.com"},
         follow_redirects=True,
     )

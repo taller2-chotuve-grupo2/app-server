@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 
 
 def test_upload_video_with_no_token(client):
-    response = client.post("/video", follow_redirects=True)
+    response = client.post("/video/", follow_redirects=True)
     assert response.status_code == 403
 
 
@@ -17,7 +17,7 @@ def test_upload_video_with_valid_token(mock_verify, mock_upload, client):
     headers = {"Authorization": f"{token}"}
     data = {"title": "video1"}
     response = client.post(
-        "/video",
+        "/video/",
         headers=headers,
         content_type="application/json",
         json=data,
@@ -47,7 +47,7 @@ def test_get_feed_with_valid_token(mock_verify, mock_feed, client):
     headers = {"Authorization": f"{token}"}
     data = dict(title="video1")
     response = client.get(
-        "/video",
+        "/video/",
         headers=headers,
         content_type="application/json",
         follow_redirects=True,

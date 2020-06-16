@@ -10,7 +10,9 @@ def create_app(config):
 
     import logging, logging.config, yaml
 
-    logging.config.dictConfig(yaml.load(open("app/logging.conf")))
+    logging.config.dictConfig(
+        yaml.load(open("app/logging.conf"), Loader=yaml.FullLoader)
+    )
 
     # logging.basicConfig(filename="demo.log", level=logging.DEBUG)
     # logging.config.fileConfig("logging.conf")
@@ -21,10 +23,11 @@ def create_app(config):
     migrate = Migrate(app, db)
 
     from app import models
-    from . import auth, media
+    from . import auth, media, contact
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(media.bp)
+    app.register_blueprint(contact.bp)
 
     @app.route("/")
     def richard():
