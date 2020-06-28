@@ -35,23 +35,23 @@ class User(db.Model):
         "User",
         secondary="friendships",
         primaryjoin=id == Friendship.friend_b,
-        secondaryjoin=((id == Friendship.friend_a) & (Friendship.status=="pending")),
-        viewonly=True
+        secondaryjoin=((id == Friendship.friend_a) & (Friendship.status == "pending")),
+        viewonly=True,
     )
 
     friends_a_accepted = relationship(
         "User",
         secondary="friendships",
         primaryjoin=id == Friendship.friend_a,
-        secondaryjoin=((id == Friendship.friend_b) & (Friendship.status=="accepted")),
-        viewonly=True
+        secondaryjoin=((id == Friendship.friend_b) & (Friendship.status == "accepted")),
+        viewonly=True,
     )
     friends_a_accepted = relationship(
         "User",
         secondary="friendships",
         primaryjoin=id == Friendship.friend_b,
-        secondaryjoin=((id == Friendship.friend_a) & (Friendship.status=="accepted")),
-        viewonly=True
+        secondaryjoin=((id == Friendship.friend_a) & (Friendship.status == "accepted")),
+        viewonly=True,
     )
 
     def __repr__(self):
@@ -66,6 +66,7 @@ class User(db.Model):
         db.session.commit()
 
     def accept_friend(self, friend):
-        Friendship.query.filter_by(friend_a=friend.id, friend_b=self.id).update(dict(status="accepted"))
+        Friendship.query.filter_by(friend_a=friend.id, friend_b=self.id).update(
+            dict(status="accepted")
+        )
         db.session.commit()
-

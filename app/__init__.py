@@ -21,11 +21,11 @@ def create_app(config):
     app.config.from_object(config)
     db.init_app(app)
     from app import models
+
     migrate = Migrate(app, db)
 
-    
-
     from . import auth, media, contact
+
     app.register_blueprint(auth.bp)
     app.register_blueprint(media.bp)
     app.register_blueprint(contact.bp)

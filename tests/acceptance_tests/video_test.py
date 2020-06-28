@@ -1,5 +1,6 @@
 from unittest.mock import Mock, patch
 
+
 @patch("services.auth_service.make_verify_request")
 def test_upload_video_with_no_token(mock_verify, client):
     mock_verify.return_value.status_code = 400
