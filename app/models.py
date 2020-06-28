@@ -46,7 +46,7 @@ class User(db.Model):
         secondaryjoin=((id == Friendship.friend_b) & (Friendship.status == "accepted")),
         viewonly=True,
     )
-    friends_a_accepted = relationship(
+    friends_b_accepted = relationship(
         "User",
         secondary="friendships",
         primaryjoin=id == Friendship.friend_b,

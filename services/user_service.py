@@ -22,3 +22,11 @@ def send_request(contact_from, contact_to):
 
 def get_friend_requests(contact):
     return contact.pending_friends
+
+
+def accept_request(contact_from, contact_accept):
+    contact_from.accept_friend(contact_accept)
+
+
+def get_friends(contact):
+    return contact.all_friends
