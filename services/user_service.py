@@ -16,5 +16,9 @@ def list_users(username):
     return [u.as_dict() for u in users]
 
 
-# def send_request(contact_from, contact_to):
-#     contact_from.
+def send_request(contact_from, contact_to):
+    contact_from.add_friend(contact_to)
+
+
+def get_friend_requests(contact):
+    return contact.pending_friends

@@ -1,5 +1,4 @@
 import app as flask_app
-import os
 from config import Config
 
 app = flask_app.create_app(Config)
