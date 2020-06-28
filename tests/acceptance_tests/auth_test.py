@@ -22,7 +22,7 @@ def test_login_with_right_args(mock_auth_request, client):
     mock_auth_request.return_value.status_code = 200
     mock_auth_request.return_value.json.return_value = {"token": "123"}
     response = client.post(
-        "/login", json={"username": "admin", "password": "admin"}, follow_redirects=True
+        "/login/", json={"username": "admin", "password": "admin"}, follow_redirects=True
     )
     assert response.status_code == 200
     assert response.json["token"] == "123"

@@ -14,3 +14,6 @@ auth_header = "Basic YWxhZGRpbjpvcGVuc2VzYW1l"
 def list_users(username):
     users = user_repository.list_users(username)
     return [u.as_dict() for u in users]
+
+# def send_request(contact_from, contact_to):
+#     contact_from.

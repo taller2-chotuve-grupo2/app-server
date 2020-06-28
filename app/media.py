@@ -1,8 +1,8 @@
+import requests
 from flask import Blueprint, request, current_app
+from flask.json import jsonify
 from services.video_service import upload_video, get_feed
 from services import video_service, auth_service
-import requests
-from flask.json import jsonify
 from exceptions.invalid_login import InvalidToken
 
 bp = Blueprint("media", __name__)
@@ -19,7 +19,7 @@ def upload():
         return jsonify({"id": video_id}), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException:
+    except BaseException as e:
         return "Unable to handle request", 400
 
 
