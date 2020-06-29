@@ -54,3 +54,21 @@ def pending_contacts():
     except BaseException as e:
         print(e)
         return "NO USERS", 400
+
+
+@bp.route("/contact/accept/", methods=["POST"])
+def accept_contact():
+    token = request.headers.get("authorization")
+    try:
+        user = auth_service.verify_token(token)
+        contact_data = request.json
+        current_app.logger.info(
+            f"Contact Request:: Username {user} wants to friend {contact_data['username']}"
+        )
+        contact_from = user_service.find_by_username(user)
+        contact_to = user_service.find_by_username(contact_data["username"])
+        user_service.accept_request(contact_from, contact_to)
+        return "OK", 200
+    except BaseException as e:
+        print(e)
+        return "NO USERS", 400

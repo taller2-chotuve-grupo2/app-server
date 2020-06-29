@@ -4,3 +4,7 @@ class InvalidLogin(BaseException):
 
 class InvalidToken(BaseException):
     pass
+
+
+class NoFriendPending(BaseException):
+    pass

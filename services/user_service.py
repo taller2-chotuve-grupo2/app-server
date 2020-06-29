@@ -1,5 +1,5 @@
 import requests
-from exceptions.invalid_login import InvalidLogin, InvalidToken
+from exceptions.invalid_login import InvalidLogin, InvalidToken, NoFriendPending
 from flask import current_app
 from repositories import user_repository
 
@@ -32,6 +32,8 @@ def get_friend_requests(contact):
 
 
 def accept_request(contact_from, contact_accept):
+    if contact_accept not in contact_from.pending_friends:
+        raise NoFriendPending
     contact_from.accept_friend(contact_accept)
 
 
