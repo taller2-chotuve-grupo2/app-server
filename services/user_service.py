@@ -16,8 +16,7 @@ def list_users(username=""):
     if users is None:
         return []
     else:
-        # return [u.as_dict() for u in users]
-        return users
+        return [{"username": u.username} for u in users]
 
 
 def send_request(contact_from, contact_to):
