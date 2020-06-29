@@ -1,6 +1,7 @@
 import pytest
 from app import create_app, db as _db
 from config import TestConfig
+from repositories import user_repository
 
 
 @pytest.fixture(scope="session")
@@ -19,10 +20,18 @@ def runner(app):
     return app.test_cli_runner()
 
 
+@pytest.fixture(scope="session")
+def user(app):
+    return user_repository.save_user("Ric")
+    # return app
+
+
 @pytest.yield_fixture(scope="session")
 def db(app):
     _db.app = app
     _db.create_all()
+
+    user_repository.save_user("Rich")
 
     yield _db
 
