@@ -10,4 +10,4 @@ def save_user(username):
 
 
 def list_users(username):
-    return User.query.filter(User.username.contains(username))
+    return User.query.filter(User.username.contains(username)).all()

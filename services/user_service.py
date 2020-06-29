@@ -11,9 +11,13 @@ auth_endpoint = f"{auth_base_url}/auth/"
 auth_header = "Basic YWxhZGRpbjpvcGVuc2VzYW1l"
 
 
-def list_users(username):
+def list_users(username=""):
     users = user_repository.list_users(username)
-    return [u.as_dict() for u in users]
+    if users is None:
+        return []
+    else:
+        # return [u.as_dict() for u in users]
+        return users
 
 
 def send_request(contact_from, contact_to):

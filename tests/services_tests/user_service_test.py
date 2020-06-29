@@ -40,3 +40,12 @@ def test_accept_contact_request():
     friends_contact1 = user_service.get_friends(contact1)
     assert len(friends_contact1) == 1
     assert contact2 in friends_contact1
+
+
+def test_list_available_users():
+    contact1 = user_repository.save_user("Ric")
+    contact2 = user_repository.save_user("Charles")
+    user_list = user_service.list_users()
+    assert len(user_list) == 2
+    user_list = user_service.list_users("ric")
+    assert len(user_list) == 1
