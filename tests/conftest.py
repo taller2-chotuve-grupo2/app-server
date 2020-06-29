@@ -31,7 +31,12 @@ def db(app):
     _db.app = app
     _db.create_all()
 
-    user_repository.save_user("Rich")
+    u1 = user_repository.save_user("Rich")
+    u2 = user_repository.save_user("Roc")
+    u3 = user_repository.save_user("Ricson")
+    u1.add_friend(u2)
+    u1.add_friend(u3)
+    u3.accept_friend(u1)
 
     yield _db
 

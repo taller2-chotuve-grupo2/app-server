@@ -11,3 +11,7 @@ def save_user(username):
 
 def list_users(username):
     return User.query.filter(User.username.contains(username)).all()
+
+
+def find_by_username(username):
+    return User.query.filter_by(username=username).first()

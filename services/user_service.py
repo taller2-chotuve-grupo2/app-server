@@ -11,6 +11,10 @@ auth_endpoint = f"{auth_base_url}/auth/"
 auth_header = "Basic YWxhZGRpbjpvcGVuc2VzYW1l"
 
 
+def find_by_username(username):
+    return user_repository.find_by_username(username)
+
+
 def list_users(username=""):
     users = user_repository.list_users(username)
     if users is None:
