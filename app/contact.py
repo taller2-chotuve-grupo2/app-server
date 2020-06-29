@@ -39,3 +39,18 @@ def new_contact():
     except BaseException as e:
         print(e)
         return "NO USERS", 400
+
+
+@bp.route("/contact/pending", methods=["GET"])
+def pending_contacts():
+    token = request.headers.get("authorization")
+    try:
+        user = auth_service.verify_token(token)
+        contact_from = user_service.find_by_username(user)
+        pendings = user_service.get_friend_requests(contact_from)
+        pendings_dict = [{"username": u.username} for u in pendings]
+        current_app.logger.info(pendings)
+        return jsonify(pendings_dict), 200
+    except BaseException as e:
+        print(e)
+        return "NO USERS", 400
