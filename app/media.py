@@ -31,7 +31,7 @@ def feed():
         user = auth_service.verify_token(token)
         print(user)
         videos = get_feed(user)
-        return jsonify({"videos": videos}), 200
+        return jsonify(videos), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
     except BaseException:
