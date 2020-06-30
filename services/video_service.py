@@ -26,8 +26,8 @@ def make_upload_video_request(data):
     return response
 
 
-def make_feed_request():
-    response = requests.get(get_feed_endpoint, headers=auth_header)
+def make_feed_request(query_params):
+    response = requests.get(get_feed_endpoint, headers=auth_header, params=query_params)
     return response
 
 
@@ -55,8 +55,8 @@ def upload_video(data):
         raise BaseException
 
 
-def get_feed(user):
-    response = make_feed_request()
+def get_feed(user, query_params):
+    response = make_feed_request(query_params)
     current_app.logger.info("GET FEED")
     if response.status_code == 200:
         return response.json()
