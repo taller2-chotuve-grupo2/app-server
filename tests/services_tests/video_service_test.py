@@ -59,7 +59,7 @@ def test_get_feed_video_service_status_200(mock_feed_request):
 
     user = {"name": "ric", "id": "1"}
 
-    videos = video_service.get_feed(user)
+    videos = video_service.get_feed(user, None)
     assert videos == [data, data]
 
 
