@@ -6,7 +6,7 @@ from repositories import user_repository
 def test_get_all_contacts(mock_verify, client):
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"user": "Rich"}
-    response = client.get("/contact")
+    response = client.get("/contacts")
     assert response.status_code == 200
     print(response)
     user_lists = response.json
@@ -17,7 +17,7 @@ def test_get_all_contacts(mock_verify, client):
 def test_get_contacts_query(mock_verify, client):
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"user": "Rich"}
-    response = client.get("/contact?username=ric")
+    response = client.get("/contacts?username=ric")
     assert response.status_code == 200
     print(response)
     user_lists = response.json
@@ -32,7 +32,7 @@ def test_new_contact(mock_verify, client):
     headers = {"Authorization": f"{token}"}
     data = {"username": "Ricson"}
     response = client.post(
-        "/contact/",
+        "/contacts/",
         headers=headers,
         content_type="application/json",
         json=data,
@@ -47,7 +47,7 @@ def test_get_pending_requests(mock_verify, client):
     mock_verify.return_value.json.return_value = {"user": "Roc"}
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
-    response = client.get("/contact/pending", headers=headers, follow_redirects=True,)
+    response = client.get("/contacts/pending", headers=headers, follow_redirects=True,)
     assert response.status_code == 200
     user_lists = response.json
     assert {"username": "Rich"} in user_lists
@@ -61,7 +61,7 @@ def test_accept_friend_request(mock_verify, client):
     headers = {"Authorization": f"{token}"}
     data = {"username": "Rich"}
     response = client.post(
-        "/contact/accept/", headers=headers, json=data, follow_redirects=True
+        "/contacts/accept/", headers=headers, json=data, follow_redirects=True
     )
     assert response.status_code == 200
 
@@ -74,6 +74,6 @@ def test_accept_not_existant_friend_request(mock_verify, client):
     headers = {"Authorization": f"{token}"}
     data = {"username": "Roc"}
     response = client.post(
-        "/contact/accept/", headers=headers, json=data, follow_redirects=True
+        "/contacts/accept/", headers=headers, json=data, follow_redirects=True
     )
     assert response.status_code == 400

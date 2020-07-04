@@ -38,6 +38,11 @@ def create_app(config):
     def docs():
         return send_file("../docs/index.html")
 
+    @app.route("/yml")
+    def yml():
+        return send_file("../docs/openapi.yml")
+    
+
     @app.route("/javascripts/<path:path>")
     def send_js(path):
         return send_from_directory("../public/javascripts", path)

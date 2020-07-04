@@ -3,10 +3,10 @@ from exceptions.invalid_login import InvalidLogin
 from services import user_service, auth_service
 import requests
 
-bp = Blueprint("contact", __name__)
+bp = Blueprint("contacts", __name__)
 
 
-@bp.route("/contact", methods=["GET"])
+@bp.route("/contacts", methods=["GET"])
 def list_contacts():
     token = request.headers.get("authorization")
     try:
@@ -23,7 +23,7 @@ def list_contacts():
         return "NO USERS", 400
 
 
-@bp.route("/contact/", methods=["POST"])
+@bp.route("/contacts/", methods=["POST"])
 def new_contact():
     token = request.headers.get("authorization")
     try:
@@ -41,7 +41,7 @@ def new_contact():
         return "NO USERS", 400
 
 
-@bp.route("/contact/pending", methods=["GET"])
+@bp.route("/contacts/pending/", methods=["GET"])
 def pending_contacts():
     token = request.headers.get("authorization")
     try:
@@ -56,7 +56,7 @@ def pending_contacts():
         return "NO USERS", 400
 
 
-@bp.route("/contact/accept/", methods=["POST"])
+@bp.route("/contacts/accept/", methods=["POST"])
 def accept_contact():
     token = request.headers.get("authorization")
     try:
@@ -69,6 +69,20 @@ def accept_contact():
         contact_to = user_service.find_by_username(contact_data["username"])
         user_service.accept_request(contact_from, contact_to)
         return "OK", 200
+    except BaseException as e:
+        print(e)
+        return "NO USERS", 400
+
+
+@bp.route("/contacts/friends/", methods=["GET"])
+def friends():
+    token = request.headers.get("authorization")
+    try:
+        user = auth_service.verify_token(token)
+        friends = user_service.get_friends(user)
+        friends_dict = [{"username": u.username} for u in friends]
+        current_app.logger.info(friends)
+        return jsonify(friends_dict), 200
     except BaseException as e:
         print(e)
         return "NO USERS", 400
