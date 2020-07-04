@@ -41,7 +41,6 @@ def create_app(config):
     @app.route("/yml")
     def yml():
         return send_file("../docs/openapi.yml")
-    
 
     @app.route("/javascripts/<path:path>")
     def send_js(path):

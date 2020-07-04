@@ -79,7 +79,8 @@ def friends():
     token = request.headers.get("authorization")
     try:
         user = auth_service.verify_token(token)
-        friends = user_service.get_friends(user)
+        contact_from = user_service.find_by_username(user)
+        friends = user_service.get_friends(contact_from)
         friends_dict = [{"username": u.username} for u in friends]
         current_app.logger.info(friends)
         return jsonify(friends_dict), 200

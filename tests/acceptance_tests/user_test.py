@@ -77,3 +77,16 @@ def test_accept_not_existant_friend_request(mock_verify, client):
         "/contacts/accept/", headers=headers, json=data, follow_redirects=True
     )
     assert response.status_code == 400
+
+
+@patch("services.auth_service.make_verify_request")
+def test_get_friends_request(mock_verify, client):
+    mock_verify.return_value.status_code = 200
+    mock_verify.return_value.json.return_value = {"user": "Ricson"}
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
+    headers = {"Authorization": f"{token}"}
+    data = {"username": "Rich"}
+    response = client.get("/contacts/friends/", headers=headers, follow_redirects=True)
+    user_lists = response.json
+    assert response.status_code == 200
+    assert {"username": "Rich"} in user_lists
