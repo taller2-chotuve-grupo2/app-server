@@ -2,6 +2,7 @@ from flask import Flask, send_file, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
+from flask_cors import CORS
 
 db = SQLAlchemy()
 
@@ -17,6 +18,7 @@ def create_app(config):
     # logging.basicConfig(filename="demo.log", level=logging.DEBUG)
     # logging.config.fileConfig("logging.conf")
     app = Flask(__name__)
+    CORS(app)
     app.logger.info("STARTED APP SERVER")
     app.config.from_object(config)
     db.init_app(app)
