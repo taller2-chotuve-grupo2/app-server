@@ -81,6 +81,7 @@ def post_reaction(id):
     except BaseException:
         return "Unable to handle request", 400
 
+
 @bp.route("/video/<id>/reaction", methods=["GET"])
 def get_reactions(id):
     token = request.headers.get("authorization")

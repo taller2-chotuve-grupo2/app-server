@@ -45,8 +45,11 @@ def make_post_reaction_request(id, data):
     response = requests.post(reaction_endpoint(id), headers=auth_header, json=data)
     return response
 
+
 def make_get_video_reactions_request(id, query_params):
-    response = requests.get(reaction_endpoint(id), headers=auth_header, params=query_params)
+    response = requests.get(
+        reaction_endpoint(id), headers=auth_header, params=query_params
+    )
     return response
 
 

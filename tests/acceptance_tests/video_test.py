@@ -125,6 +125,7 @@ def test_post_reaction_with_valid_token(mock_verify, mock_post_reaction, client)
     )
     assert response.status_code == 200
 
+
 @patch("services.video_service.make_get_video_reactions_request")
 @patch("services.auth_service.make_verify_request")
 def test_post_reaction_with_valid_token(mock_verify, mock_get_video_reaction, client):
