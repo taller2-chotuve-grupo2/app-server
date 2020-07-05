@@ -80,3 +80,16 @@ def post_reaction(id):
         return "UNAUTHORIZED", 403
     except BaseException:
         return "Unable to handle request", 400
+
+@bp.route("/video/<id>/reaction", methods=["GET"])
+def get_reactions(id):
+    token = request.headers.get("authorization")
+    try:
+        user = auth_service.verify_token(token)
+        reaction_data = request.args
+        data = video_service.get_video_reaction(id, reaction_data)
+        return jsonify(data), 200
+    except InvalidToken:
+        return "UNAUTHORIZED", 403
+    except BaseException:
+        return "Unable to handle request", 400

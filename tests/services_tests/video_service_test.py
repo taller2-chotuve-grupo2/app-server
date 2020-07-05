@@ -147,3 +147,29 @@ def test_post_reaction_service_status_400(mock_upload_request):
 
     with pytest.raises(BaseException):
         video_service.post_reaction(12, data)
+
+
+@patch("services.video_service.make_get_video_reactions_request")
+def test_get_video_reactions_service_status_200(mock_get_reactions_request):
+    mock_get_reactions_request.return_value.status_code = 200
+
+    with pytest.raises(BaseException):
+        video_service.get_video_reaction(12)
+
+@patch("services.video_service.make_get_video_reactions_request")
+def test_get_video_reactions_service_response(mock_get_reactions_request):
+    mock_get_reactions_request.return_value.status_code = 200
+
+    data = {
+        "likes":1,
+        "dislikes":0,
+        "userReaction":{
+            "status": "Me gusta"
+        }
+    }
+
+    mock_get_reactions_request.return_value.json.return_value = data
+    upload_ok = video_service.get_video_reaction(12, {"username":"RICHARD"})
+
+    assert upload_ok == data
+

@@ -124,3 +124,22 @@ def test_post_reaction_with_valid_token(mock_verify, mock_post_reaction, client)
         follow_redirects=True,
     )
     assert response.status_code == 200
+
+@patch("services.video_service.make_get_video_reactions_request")
+@patch("services.auth_service.make_verify_request")
+def test_post_reaction_with_valid_token(mock_verify, mock_get_video_reaction, client):
+    mock_verify.return_value.status_code = 200
+    mock_verify.return_value.json.return_value = {"user": "RIC"}
+    mock_get_video_reaction.return_value.status_code = 200
+    data = {"status": "Me gusta"}
+    mock_get_video_reaction.return_value.json.return_value = data
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
+    headers = {"Authorization": f"{token}"}
+    response = client.get(
+        "/video/12/reaction",
+        headers=headers,
+        content_type="application/json",
+        json=data,
+        follow_redirects=True,
+    )
+    assert response.status_code == 200

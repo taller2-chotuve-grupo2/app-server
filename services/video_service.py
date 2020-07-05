@@ -14,7 +14,7 @@ def post_comment_endpoint(id):
     return f"{media_base_url}/resource/{id}/comment/"
 
 
-def post_reaction_endpoint(id):
+def reaction_endpoint(id):
     return f"{media_base_url}/resource/{id}/reaction/"
 
 
@@ -42,7 +42,11 @@ def make_post_comment_request(id, data):
 
 
 def make_post_reaction_request(id, data):
-    response = requests.post(post_reaction_endpoint(id), headers=auth_header, json=data)
+    response = requests.post(reaction_endpoint(id), headers=auth_header, json=data)
+    return response
+
+def make_get_video_reactions_request(id, query_params):
+    response = requests.get(reaction_endpoint(id), headers=auth_header, params=query_params)
     return response
 
 
@@ -84,5 +88,13 @@ def post_reaction(id, data):
     response = make_post_reaction_request(id, data)
     if response.status_code == 200:
         return True
+    else:
+        raise BaseException
+
+
+def get_video_reaction(id, query_params):
+    response = make_get_video_reactions_request(id, query_params)
+    if response.status_code == 200:
+        return response.json()
     else:
         raise BaseException
