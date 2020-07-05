@@ -34,6 +34,10 @@ def create_app(config):
     def richard():
         return "Richard!"
 
+    @app.route("/ping/")
+    def health():
+        return "OK"
+
     @app.route("/docs")
     def docs():
         return send_file("../docs/index.html")
