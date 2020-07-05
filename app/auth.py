@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, current_app, json, jsonify, request
 from exceptions.invalid_login import InvalidLogin
 
 from services.auth_service import login_user, register_user
@@ -45,9 +45,9 @@ def profile():
     try:
         user = auth_service.verify_token(token)
         current_app.logger.info(f"get profile for {user}")
-        # profile = auth_service.get_profile(user)
-        # current_app.logger.info(profile)
-        profile = {"username": user}
+        profile = auth_service.get_profile(user)
+        # profile = {"username": user}
+        profile = json.loads(profile)
         return jsonify(profile), 200
     except BaseException as e:
         print(e)

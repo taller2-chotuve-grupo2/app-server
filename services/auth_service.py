@@ -8,6 +8,11 @@ login_endpoint = f"{auth_base_url}/login/"
 register_endpoint = f"{auth_base_url}/user/"
 auth_endpoint = f"{auth_base_url}/auth/"
 
+
+def get_video_endpoint(username):
+    return f"{auth_base_url}/user/{username}"
+
+
 auth_header = "Basic YWxhZGRpbjpvcGVuc2VzYW1l"
 
 
@@ -31,6 +36,13 @@ def make_register_request(username, password, email):
 def make_verify_request(token):
     response = requests.post(
         auth_endpoint, headers={"authorization": auth_header}, json={"token": token},
+    )
+    return response
+
+
+def make_profile_request(username):
+    response = requests.get(
+        get_video_endpoint(username), headers={"authorization": auth_header}
     )
     return response
 
@@ -60,5 +72,13 @@ def verify_token(token):
     response = make_verify_request(token)
     if response.status_code == 200:
         return response.json()["user"]
+    else:
+        raise InvalidToken
+
+
+def get_profile(username):
+    response = make_profile_request(username)
+    if response.status_code == 200:
+        return response.json()
     else:
         raise InvalidToken
