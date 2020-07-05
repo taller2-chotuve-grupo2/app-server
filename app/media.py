@@ -71,9 +71,10 @@ def post_comment(id):
 def post_reaction(id):
     token = request.headers.get("authorization")
     try:
-        auth_service.verify_token(token)
-        print(request)
-        data = video_service.post_reaction(id, request.json)
+        user = auth_service.verify_token(token)
+        reaction_data = request.json
+        reaction_data["owner"] = user
+        data = video_service.post_reaction(id, reaction_data)
         return "OK", 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
