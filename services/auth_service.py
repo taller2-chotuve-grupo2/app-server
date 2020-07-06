@@ -1,5 +1,5 @@
 import requests
-from exceptions.invalid_login import InvalidLogin, InvalidToken
+from exceptions.invalid_login import InvalidLogin, InvalidToken, InvalidRegister
 from flask import current_app
 from repositories import user_repository
 
@@ -65,7 +65,7 @@ def register_user(username, password, email):
         user_repository.save_user(username)
         return True
     else:
-        raise BaseException
+        raise InvalidRegister
 
 
 def verify_token(token):

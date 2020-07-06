@@ -1,5 +1,5 @@
 from flask import Blueprint, current_app, json, jsonify, request
-from exceptions.invalid_login import InvalidLogin
+from exceptions.invalid_login import InvalidLogin, InvalidRegister
 
 from services.auth_service import login_user, register_user
 from services import auth_service
@@ -35,7 +35,8 @@ def register():
         register_ok = register_user(username, password, email)
         if register_ok:
             return "OK", 200
-    except BaseException:
+    except InvalidRegister as e:
+        print(e)
         return "BAD REGISTER", 400
 
 
