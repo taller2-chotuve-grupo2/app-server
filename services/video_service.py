@@ -101,3 +101,12 @@ def get_video_reaction(id, query_params):
         return response.json()
     else:
         raise BaseException
+
+
+def get_videos_by_username(username, private):
+    query_params = {username: username, private: private}
+    response = make_feed_request(query_params)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise BaseException

@@ -91,14 +91,18 @@ def test_get_friends_request(mock_verify, client):
     assert {"username": "Rich"} in user_lists
 
 
+@patch("services.auth_service.make_profile_request")
 @patch("services.auth_service.make_verify_request")
-def test_get_profile_request(mock_verify, client):
+def test_get_profile_request(mock_verify, mock_get_profile, client):
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"user": "Richardson"}
+    mock_get_profile.return_value.status_code = 200
+    mock_get_profile.return_value.json.return_value = '{"username":"Richardson","first_name":"","last_name":"","email":"richardson@richard.son","phone":"","thumbnail":"https://ix.sysoons.com/x1/ricardo-fort.png"}'
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
     response = client.get("/profile/", headers=headers, follow_redirects=True)
     profile = response.json
+    print(response)
     assert response.status_code == 200
     assert profile["username"] == "Richardson"
     assert profile["email"] == "richardson@richard.son"

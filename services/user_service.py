@@ -39,3 +39,8 @@ def accept_request(contact_from, contact_accept):
 
 def get_friends(contact):
     return contact.all_friends
+
+
+def are_friends(contact1, contact2):
+    all_friends = contact1.all_friends
+    return contact2 in all_friends

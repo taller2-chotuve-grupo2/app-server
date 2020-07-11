@@ -1,8 +1,7 @@
 import requests
 from flask import Blueprint, request, current_app
 from flask.json import jsonify
-from services.video_service import upload_video, get_feed
-from services import video_service, auth_service
+from services import video_service, auth_service, user_service
 from exceptions.invalid_login import InvalidToken
 
 bp = Blueprint("media", __name__)
@@ -30,7 +29,7 @@ def feed():
         current_app.logger.info("RIC")
         user = auth_service.verify_token(token)
         print(user)
-        videos = get_feed(user, request.args)
+        videos = video_service.get_feed(user, request.args)
         return videos, 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
@@ -89,6 +88,25 @@ def get_reactions(id):
         user = auth_service.verify_token(token)
         reaction_data = request.args
         data = video_service.get_video_reaction(id, reaction_data)
+        return jsonify(data), 200
+    except InvalidToken:
+        return "UNAUTHORIZED", 403
+    except BaseException:
+        return "Unable to handle request", 400
+
+
+@bp.route("/video/user/<username>", methods=["GET"])
+def get_video_by_user(username):
+    token = request.headers.get("authorization")
+    try:
+        user = auth_service.verify_token(token)
+        contact_from = user_service.find_by_username(user)
+        contact_to = user_service.find_by_username(username)
+        reaction_data = request.args
+        private = False
+        if user_service.are_friends(contact_from, contact_to):
+            private = True
+        data = video_service.get_videos_by_username(username, private)
         return jsonify(data), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403

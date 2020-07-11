@@ -48,7 +48,11 @@ def profile():
         current_app.logger.info(f"get profile for {user}")
         profile = auth_service.get_profile(user)
         # profile = {"username": user}
+        current_app.logger.info(profile)
+
         profile = json.loads(profile)
+        # print(profile2)
+
         return jsonify(profile), 200
     except BaseException as e:
         print(e)
