@@ -28,7 +28,6 @@ def feed():
     try:
         current_app.logger.info("RIC")
         user = auth_service.verify_token(token)
-        print(user)
         videos = video_service.get_feed(user, request.args)
         return videos, 200
     except InvalidToken:
@@ -57,7 +56,6 @@ def post_comment(id):
         user = auth_service.verify_token(token)
         comment_data = request.json
         comment_data["owner"] = user
-        print(request.json)
         data = video_service.post_comment(id, comment_data)
         return "OK", 200
     except InvalidToken:
@@ -110,5 +108,6 @@ def get_video_by_user(username):
         return jsonify(data), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException:
+    except BaseException as e:
+        print(e)
         return "Unable to handle request", 400
