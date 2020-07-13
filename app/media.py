@@ -40,8 +40,8 @@ def feed():
 def get_video(id):
     token = request.headers.get("authorization")
     try:
-        auth_service.verify_token(token)
-        video = video_service.get_video(id)
+        user = auth_service.verify_token(token)
+        video = video_service.get_video(id, user)
         return jsonify(video), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
