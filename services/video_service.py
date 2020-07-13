@@ -72,7 +72,7 @@ def get_feed(user, query_params):
         raise BaseException
 
 
-def get_video(id, username):
+def get_video(id, username = ''):
     response = make_get_video_request(id, username)
     if response.status_code == 200:
         return response.json()
