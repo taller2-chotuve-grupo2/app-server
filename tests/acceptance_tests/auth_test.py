@@ -57,3 +57,14 @@ def test_register_with_right_args(mock_register_request, client):
     assert response.status_code == 200
     # user = User.query.filter_by(username="adminadmin").first()
     # assert user.username == "adminadmin"
+
+
+@patch("services.auth_service.make_reset_password_request")
+def test_register_with_right_args(mock_reset_password_request, client):
+    mock_reset_password_request.return_value.status_code = 200
+    mock_reset_password_request.return_value.json.return_value = {"password": "123"}
+    response = client.post(
+        "/reset-password/", json={"username": "adminadmin"}, follow_redirects=True,
+    )
+    assert response.status_code == 200
+    assert response.json["password"] == "123"

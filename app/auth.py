@@ -61,7 +61,7 @@ def profile():
         return "NO USERS", 400
 
 
-@bp.route("/reset-password/", methods=["GET"])
+@bp.route("/reset-password/", methods=["POST"])
 def reset_password():
     current_app.logger.info("sending message")
     try:
@@ -69,10 +69,9 @@ def reset_password():
             "Hello", sender="admin@chotuve.com", recipients=["juan.dambra@gmail.com"]
         )
         s = mail.send(msg)
-        current_app.logger.info(msg)
         current_app.logger.info(s)
-        print(msg, s)
-        return "OK", 200
+        new_password = {"password": "123"}
+        return jsonify(new_password), 200
     except BaseException as e:
         current_app.logger.info(e)
-        return "FAIL", 400
+        return jsonify(new_password), 400

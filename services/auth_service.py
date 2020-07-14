@@ -5,6 +5,7 @@ from repositories import user_repository
 
 auth_base_url = "https://chotuve-grupo2-auth-server-dev.herokuapp.com"
 login_endpoint = f"{auth_base_url}/login/"
+reset_password_endpoint = f"{auth_base_url}/reset-password/"
 register_endpoint = f"{auth_base_url}/user/"
 auth_endpoint = f"{auth_base_url}/auth/"
 
@@ -19,6 +20,14 @@ auth_header = "Basic YWxhZGRpbjpvcGVuc2VzYW1l"
 def make_auth_request(username, password):
     return requests.post(
         login_endpoint,
+        headers={"authorization": auth_header},
+        json={"username": username, "password": password},
+    )
+
+
+def make_reset_password_request(username, password):
+    return requests.post(
+        reset_password_endpoint,
         headers={"authorization": auth_header},
         json={"username": username, "password": password},
     )
