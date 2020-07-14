@@ -57,6 +57,22 @@ def test_get_feed_with_valid_token(mock_verify, mock_feed, client):
     assert response.status_code == 200
 
 
+@patch("services.video_service.make_feed_request")
+@patch("services.auth_service.make_verify_request")
+def test_get_feed_with_invalid_token(mock_verify, mock_feed, client):
+    mock_verify.return_value.status_code = 400
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
+    headers = {"Authorization": f"{token}"}
+    data = dict(title="video1")
+    response = client.get(
+        "/video/",
+        headers=headers,
+        content_type="application/json",
+        follow_redirects=True,
+    )
+    assert response.status_code == 403
+
+
 @patch("services.video_service.make_get_video_request")
 @patch("services.auth_service.make_verify_request")
 def test_get_video_with_valid_token(mock_verify, mock_get_video, client):
@@ -84,6 +100,22 @@ def test_get_video_with_valid_token(mock_verify, mock_get_video, client):
         follow_redirects=True,
     )
     assert response.status_code == 200
+
+
+@patch("services.video_service.make_feed_request")
+@patch("services.auth_service.make_verify_request")
+def test_get_video_id_with_invalid_token(mock_verify, mock_feed, client):
+    mock_verify.return_value.status_code = 400
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
+    headers = {"Authorization": f"{token}"}
+    data = dict(title="video1")
+    response = client.get(
+        "/video/12",
+        headers=headers,
+        content_type="application/json",
+        follow_redirects=True,
+    )
+    assert response.status_code == 403
 
 
 @patch("services.video_service.make_post_comment_request")
@@ -147,7 +179,7 @@ def test_get_reaction_with_valid_token(mock_verify, mock_get_video_reaction, cli
 
 @patch("services.video_service.make_feed_request")
 @patch("services.auth_service.make_verify_request")
-def test_get_video_with_valid_token(mock_verify, mock_get_feed, client):
+def test_get_video_by_user_with_valid_token(mock_verify, mock_get_feed, client):
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"user": "Rich"}
     mock_get_feed.return_value.status_code = 200

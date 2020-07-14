@@ -18,9 +18,6 @@ def upload():
         return jsonify({"id": video_id}), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException as e:
-        return "Unable to handle request", 400
-
 
 @bp.route("/video/", methods=["GET"])
 def feed():
@@ -32,9 +29,6 @@ def feed():
         return videos, 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException:
-        return "Unable to handle request", 400
-
 
 @bp.route("/video/<id>", methods=["GET"])
 def get_video(id):
@@ -45,9 +39,6 @@ def get_video(id):
         return jsonify(video), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException:
-        return "Unable to handle request", 400
-
 
 @bp.route("/video/<id>/comment", methods=["POST"])
 def post_comment(id):
@@ -60,9 +51,6 @@ def post_comment(id):
         return "OK", 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException:
-        return "Unable to handle request", 400
-
 
 @bp.route("/video/<id>/reaction", methods=["POST"])
 def post_reaction(id):
@@ -75,9 +63,7 @@ def post_reaction(id):
         return "OK", 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException:
-        return "Unable to handle request", 400
-
+    
 
 @bp.route("/video/<id>/reaction", methods=["GET"])
 def get_reactions(id):
@@ -89,9 +75,7 @@ def get_reactions(id):
         return jsonify(data), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException:
-        return "Unable to handle request", 400
-
+   
 
 @bp.route("/video/user/<username>", methods=["GET"])
 def get_video_by_user(username):
@@ -108,6 +92,4 @@ def get_video_by_user(username):
         return jsonify(data), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    except BaseException as e:
-        print(e)
-        return "Unable to handle request", 400
+    

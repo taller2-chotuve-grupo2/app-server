@@ -27,15 +27,17 @@ def login():
 @bp.route("/user/", methods=["POST"])
 def register():
     current_app.logger.info("RIC")
-    json_request = request.get_json()
-    if json_request == None:
-        return "BAD LOGIN", 400
-    username = json_request["username"]
-    password = json_request["password"]
-    email = json_request["email"]
     try:
-        register_user(username, password, email)
-        return "OK", 200
+        json_request = request.get_json()
+        if json_request == None:
+            return "BAD LOGIN", 400
+        else:
+            username = json_request["username"]
+            password = json_request["password"]
+            email = json_request["email"]
+            print(json_request)
+            register_user(username, password, email)
+            return "OK", 200
     except InvalidRegister as e:
         print(e)
         return "BAD REGISTER", 400

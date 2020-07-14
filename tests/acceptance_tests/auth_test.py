@@ -58,7 +58,7 @@ def test_register_with_right_args(mock_register_request, client):
 
 
 @patch("services.auth_service.make_reset_password_request")
-def test_register_with_right_args(mock_reset_password_request, client):
+def test_reset_password(mock_reset_password_request, client):
     mock_reset_password_request.return_value.status_code = 200
     mock_reset_password_request.return_value.json.return_value = {"password": "123"}
     response = client.post(
