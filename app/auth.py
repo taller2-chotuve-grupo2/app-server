@@ -64,15 +64,19 @@ def profile():
 
 @bp.route("/reset-password/", methods=["POST"])
 def reset_password():
-    current_app.logger.info("sending message")
     try:
+        json_request = request.get_json()
+        new_password = auth_service.reset_password(json_request["username"])
+        password = new_password["password"]
+        current_app.logger.info("sending message")
         msg = Message(
-            "Hello", sender="admin@chotuve.com", recipients=["juan.dambra@gmail.com"]
+            f"New Password {password}",
+            sender="admin@chotuve.com",
+            recipients=["juan.dambra@gmail.com"],
         )
         s = mail.send(msg)
         current_app.logger.info(s)
-        new_password = {"password": "123"}
         return jsonify(new_password), 200
     except BaseException as e:
         current_app.logger.info(e)
-        return jsonify(new_password), 400
+        return "ERROR RESET PASSWORD", 400

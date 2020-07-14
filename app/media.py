@@ -19,6 +19,7 @@ def upload():
     except InvalidToken:
         return "UNAUTHORIZED", 403
 
+
 @bp.route("/video/", methods=["GET"])
 def feed():
     token = request.headers.get("authorization")
@@ -30,6 +31,7 @@ def feed():
     except InvalidToken:
         return "UNAUTHORIZED", 403
 
+
 @bp.route("/video/<id>", methods=["GET"])
 def get_video(id):
     token = request.headers.get("authorization")
@@ -39,6 +41,7 @@ def get_video(id):
         return jsonify(video), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
+
 
 @bp.route("/video/<id>/comment", methods=["POST"])
 def post_comment(id):
@@ -52,6 +55,7 @@ def post_comment(id):
     except InvalidToken:
         return "UNAUTHORIZED", 403
 
+
 @bp.route("/video/<id>/reaction", methods=["POST"])
 def post_reaction(id):
     token = request.headers.get("authorization")
@@ -63,7 +67,7 @@ def post_reaction(id):
         return "OK", 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    
+
 
 @bp.route("/video/<id>/reaction", methods=["GET"])
 def get_reactions(id):
@@ -75,7 +79,7 @@ def get_reactions(id):
         return jsonify(data), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-   
+
 
 @bp.route("/video/user/<username>", methods=["GET"])
 def get_video_by_user(username):
@@ -92,4 +96,3 @@ def get_video_by_user(username):
         return jsonify(data), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
-    

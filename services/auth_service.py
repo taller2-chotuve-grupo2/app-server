@@ -25,11 +25,11 @@ def make_auth_request(username, password):
     )
 
 
-def make_reset_password_request(username, password):
+def make_reset_password_request(username):
     return requests.post(
         reset_password_endpoint,
         headers={"authorization": auth_header},
-        json={"username": username, "password": password},
+        json={"username": username},
     )
 
 
@@ -87,6 +87,14 @@ def verify_token(token):
 
 def get_profile(username):
     response = make_profile_request(username)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise InvalidToken
+
+
+def reset_password(username):
+    response = make_reset_password_request(username)
     if response.status_code == 200:
         return response.json()
     else:
