@@ -3,8 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
 from flask_cors import CORS
+from flask_mail import Mail
 
 db = SQLAlchemy()
+mail = Mail()
 
 
 def create_app(config):
@@ -21,6 +23,7 @@ def create_app(config):
     CORS(app)
     app.logger.info("STARTED APP SERVER")
     app.config.from_object(config)
+    mail.init_app(app)
     db.init_app(app)
     from app import models
 

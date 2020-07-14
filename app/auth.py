@@ -4,6 +4,8 @@ from exceptions.invalid_login import InvalidLogin, InvalidRegister
 from services.auth_service import login_user, register_user
 from services import auth_service
 import requests
+from flask_mail import Message
+from app import mail
 
 bp = Blueprint("auth", __name__)
 
@@ -57,3 +59,20 @@ def profile():
     except BaseException as e:
         print(e)
         return "NO USERS", 400
+
+
+@bp.route("/reset-password/", methods=["GET"])
+def reset_password():
+    current_app.logger.info("sending message")
+    try:
+        msg = Message("Hello",
+                    sender="admin@chotuve.com",
+                    recipients=["juan.dambra@gmail.com"])
+        s = mail.send(msg)
+        current_app.logger.info(msg)
+        current_app.logger.info(s)
+        print(msg, s)
+        return "OK", 200
+    except BaseException as e:
+        current_app.logger.info(e)
+        return "FAIL", 400
