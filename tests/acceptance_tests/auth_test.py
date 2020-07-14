@@ -55,8 +55,6 @@ def test_register_with_right_args(mock_register_request, client):
         follow_redirects=True,
     )
     assert response.status_code == 200
-    # user = User.query.filter_by(username="adminadmin").first()
-    # assert user.username == "adminadmin"
 
 
 @patch("services.auth_service.make_reset_password_request")
