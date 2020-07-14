@@ -33,7 +33,9 @@ def make_feed_request(query_params):
 
 def make_get_video_request(id, username):
     user_query = {"username": username}
-    response = requests.get(get_video_endpoint(id), headers=auth_header, params=user_query)
+    response = requests.get(
+        get_video_endpoint(id), headers=auth_header, params=user_query
+    )
     return response
 
 
@@ -72,7 +74,7 @@ def get_feed(user, query_params):
         raise BaseException
 
 
-def get_video(id, username = ''):
+def get_video(id, username=""):
     response = make_get_video_request(id, username)
     if response.status_code == 200:
         return response.json()

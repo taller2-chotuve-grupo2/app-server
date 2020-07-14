@@ -27,10 +27,9 @@ class TestConfig(object):
         "DATABASE_URL"
     ) or "sqlite:///" + os.path.join(basedir, "test.db")
 
-    MAIL_SERVER : "smtp.sendgrid.net"
-    MAIL_PORT : 587
-    MAIL_USE_TLS : True
+    MAIL_SERVER: "smtp.sendgrid.net"
+    MAIL_PORT: 587
+    MAIL_USE_TLS: True
     # MAIL_USE_SSL : True
-    MAIL_USERNAME : "apikey"
-    MAIL_PASSWORD : "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"
-
+    MAIL_USERNAME: "apikey"
+    MAIL_PASSWORD: "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"

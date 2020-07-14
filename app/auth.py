@@ -65,9 +65,9 @@ def profile():
 def reset_password():
     current_app.logger.info("sending message")
     try:
-        msg = Message("Hello",
-                    sender="admin@chotuve.com",
-                    recipients=["juan.dambra@gmail.com"])
+        msg = Message(
+            "Hello", sender="admin@chotuve.com", recipients=["juan.dambra@gmail.com"]
+        )
         s = mail.send(msg)
         current_app.logger.info(msg)
         current_app.logger.info(s)
