@@ -31,6 +31,10 @@ def get_friend_requests(contact):
     return contact.pending_friends
 
 
+def get_device_id(username):
+    return user_repository.find_by_username(username).device_id
+
+
 def accept_request(contact_from, contact_accept):
     if contact_accept not in contact_from.pending_friends:
         raise NoFriendPending

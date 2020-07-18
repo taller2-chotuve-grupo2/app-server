@@ -1,9 +1,12 @@
 from app.models import User
+from app.models import User
 from app import db
 
 
-def save_user(username):
+def save_user(username, device_id=None):
     u = User(username=username)
+    if device_id:
+        u.device_id = device_id
     db.session.add(u)
     db.session.commit()
     return u

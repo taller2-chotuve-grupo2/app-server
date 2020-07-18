@@ -2,7 +2,7 @@ from flask import Blueprint, current_app, json, jsonify, request
 from exceptions.invalid_login import InvalidLogin, InvalidRegister
 
 from services.auth_service import login_user, register_user
-from services import auth_service
+from services import auth_service, user_service
 import requests
 from flask_mail import Message
 from app import mail
@@ -56,6 +56,8 @@ def profile():
         current_app.logger.info(profile)
 
         profile = json.loads(profile)
+
+        profile["device_id"] = user_service.get_device_id(user)
 
         return jsonify(profile), 200
     except BaseException as e:

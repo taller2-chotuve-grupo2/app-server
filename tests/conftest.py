@@ -20,20 +20,14 @@ def runner(app):
     return app.test_cli_runner()
 
 
-@pytest.fixture(scope="session")
-def users(app):
-    return user_repository.save_user("Ric")
-    # return app
-
-
 @pytest.yield_fixture(scope="session")
 def db(app):
     _db.app = app
     _db.create_all()
 
-    u1 = user_repository.save_user("Rich")
-    u2 = user_repository.save_user("Roc")
-    u3 = user_repository.save_user("Ricson")
+    u1 = user_repository.save_user("Rich", "123")
+    u2 = user_repository.save_user("Roc", "321")
+    u3 = user_repository.save_user("Ricson", "456")
     u1.add_friend(u2)
     u1.add_friend(u3)
     u3.accept_friend(u1)
