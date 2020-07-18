@@ -38,8 +38,9 @@ def get_device_id(username):
 def set_device_id(username, device_id):
     user_repository.reset_device_id(device_id)
     user = user_repository.find_by_username(username)
-    user.device_id = device_id
-    user_repository.update_user(user)
+    if user:
+        user.device_id = device_id
+        user_repository.update_user(user)
 
 
 def accept_request(contact_from, contact_accept):
