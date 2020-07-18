@@ -23,6 +23,7 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(Integer, primary_key=True)
     username = db.Column(String, unique=True)
+    device_id = db.Column(String)
 
     # this relationship is used for persistence
     friends = relationship(
