@@ -21,7 +21,7 @@ def runner(app):
 
 
 @pytest.fixture(scope="session")
-def user(app):
+def users(app):
     return user_repository.save_user("Ric")
     # return app
 

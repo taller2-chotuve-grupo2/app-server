@@ -17,7 +17,7 @@ def test_get_all_contacts(mock_verify, client):
 def test_get_contacts_query(mock_verify, client):
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"user": "Rich"}
-    response = client.get("/contacts?username=ric")
+    response = client.get("/contacts?username=Rich")
     assert response.status_code == 200
     print(response)
     user_lists = response.json
@@ -103,6 +103,21 @@ def test_get_profile_request(mock_verify, mock_get_profile, client):
     response = client.get("/profile/", headers=headers, follow_redirects=True)
     profile = response.json
     print(response)
+    assert response.status_code == 200
+    assert profile["username"] == "Richardson"
+    assert profile["email"] == "richardson@richard.son"
+
+
+@patch("services.auth_service.make_profile_request")
+def test_get_profile_query_request(mock_get_profile, client):
+    mock_get_profile.return_value.status_code = 200
+    mock_get_profile.return_value.json.return_value = '{"username":"Richardson","first_name":"","last_name":"","email":"richardson@richard.son","phone":"","thumbnail":"https://ix.sysoons.com/x1/ricardo-fort.png"}'
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
+    headers = {"Authorization": f"{token}"}
+    response = client.get(
+        "/profile?username=Richardson", headers=headers, follow_redirects=True
+    )
+    profile = response.json
     assert response.status_code == 200
     assert profile["username"] == "Richardson"
     assert profile["email"] == "richardson@richard.son"
