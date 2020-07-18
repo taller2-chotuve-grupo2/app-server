@@ -35,6 +35,13 @@ def get_device_id(username):
     return user_repository.find_by_username(username).device_id
 
 
+def set_device_id(username, device_id):
+    user_repository.reset_device_id(device_id)
+    user = user_repository.find_by_username(username)
+    user.device_id = device_id
+    user_repository.update_user(user)
+
+
 def accept_request(contact_from, contact_accept):
     if contact_accept not in contact_from.pending_friends:
         raise NoFriendPending
