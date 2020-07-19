@@ -92,17 +92,17 @@ def profile():
 def reset_password():
     try:
         json_request = request.get_json()
-        new_password = auth_service.reset_password(json_request["username"])
-        password = new_password["password"]
+        response = auth_service.reset_password(json_request["username"])
+        password = response["newPassword"]
         current_app.logger.info("sending message")
         msg = Message(
-            f"New Password {password}",
-            sender="admin@chotuve.com",
-            recipients=["juan.dambra@gmail.com"],
+            f"Your new Password is: '{password}'",
+            sender="ric@chotuve.com",
+            recipients=["juan.dambra@gmail.com", response["email"]],
         )
         s = mail.send(msg)
         current_app.logger.info(s)
-        return jsonify(new_password), 200
+        return "EMAIL SENT", 200
     except BaseException as e:
         current_app.logger.info(e)
         return "ERROR RESET PASSWORD", 400
