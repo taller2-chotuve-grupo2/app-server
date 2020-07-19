@@ -106,8 +106,10 @@ def get_video_reaction(id, query_params):
         raise BaseException
 
 
-def get_videos_by_username(username, private):
-    query_params = {username: username, private: private}
+def get_videos_by_username(username, private=False):
+    query_params = {"owner": username}
+    if not private:
+        query_params["visibility"] = "public"
     response = make_feed_request(query_params)
     if response.status_code == 200:
         return response.json()
