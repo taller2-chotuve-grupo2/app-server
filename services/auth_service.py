@@ -57,7 +57,7 @@ def make_profile_request(username):
 
 
 def make_update_profile_request(username, profile):
-    response = requests.post(
+    response = requests.put(
         get_profile_endpoint(username),
         json=profile,
         headers={"authorization": auth_header},
