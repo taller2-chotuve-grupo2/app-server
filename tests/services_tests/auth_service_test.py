@@ -32,12 +32,16 @@ def test_register_service_bad_register(mock_post):
 @patch("services.auth_service.make_auth_request")
 def test_login_service_returns_token(mock_auth_request):
     mock_auth_request.return_value.status_code = 200
-    mock_auth_request.return_value.json.return_value = {"token": "123"}
+    mock_auth_request.return_value.json.return_value = {
+        "token": "123",
+        "username": "Ric",
+    }
 
     username = "RICHARD"
     password = "RICHARD"
-    token = login_user(username, password)
-    assert token == "123"
+    obj = login_user(username, password)
+    assert obj["token"] == "123"
+    assert obj["username"] == "Ric"
 
 
 @patch("services.auth_service.make_auth_request")

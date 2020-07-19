@@ -21,7 +21,10 @@ def test_login_with_no_body(client):
 @patch("services.auth_service.make_auth_request")
 def test_login_with_right_args(mock_auth_request, client):
     mock_auth_request.return_value.status_code = 200
-    mock_auth_request.return_value.json.return_value = {"token": "123"}
+    mock_auth_request.return_value.json.return_value = {
+        "token": "123",
+        "username": "asd",
+    }
     response = client.post(
         "/login/",
         json={"username": "Rich", "password": "admin"},
@@ -34,7 +37,10 @@ def test_login_with_right_args(mock_auth_request, client):
 @patch("services.auth_service.make_auth_request")
 def test_login_with_device_id(mock_auth_request, client):
     mock_auth_request.return_value.status_code = 200
-    mock_auth_request.return_value.json.return_value = {"token": "123"}
+    mock_auth_request.return_value.json.return_value = {
+        "token": "123",
+        "username": "Rich",
+    }
     assert user_repository.find_by_username("Rich").device_id == "123"
     response = client.post(
         "/login/",

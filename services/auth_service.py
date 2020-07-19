@@ -63,7 +63,7 @@ def login_user(username, password):
     response = make_auth_request(username, password)
     # current_app.logger.info(response.json()["token"])
     if response.status_code == 200:
-        return response.json()["token"]
+        return response.json()
     else:
         raise InvalidLogin
 
