@@ -18,8 +18,8 @@ def login():
     username = json_request["username"]
     password = json_request["password"]
     device_id = None
-    if "deviceId" in json_request:
-        device_id = json_request["deviceId"]
+    if "device_id" in json_request:
+        device_id = json_request["device_id"]
     try:
         response = login_user(username, password)
         user_service.set_device_id(response["username"], device_id)
@@ -92,7 +92,8 @@ def update_profile():
     try:
         user = auth_service.verify_token(token)
         current_app.logger.info(f"post profile for {user}")
-        profile = auth_service.post_profile(user)
+        profileData = request.get_json()
+        profile = auth_service.post_profile(user, profileData)
         return jsonify(profile), 200
     except BaseException as e:
         print(e)

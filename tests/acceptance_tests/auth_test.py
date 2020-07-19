@@ -44,7 +44,7 @@ def test_login_with_device_id(mock_auth_request, client):
     assert user_repository.find_by_username("Rich").device_id == "123"
     response = client.post(
         "/login/",
-        json={"username": "Rich", "password": "admin", "deviceId": "ric"},
+        json={"username": "Rich", "password": "admin", "device_id": "ric"},
         follow_redirects=True,
     )
     assert response.status_code == 200

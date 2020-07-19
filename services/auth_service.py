@@ -56,9 +56,11 @@ def make_profile_request(username):
     return response
 
 
-def make_update_profile_request(username):
-    response = requests.get(
-        get_profile_endpoint(username), headers={"authorization": auth_header}
+def make_update_profile_request(username, profile):
+    response = requests.post(
+        get_profile_endpoint(username),
+        json=profile,
+        headers={"authorization": auth_header},
     )
     return response
 
@@ -100,8 +102,8 @@ def get_profile(username):
         raise InvalidToken
 
 
-def post_profile(profileData):
-    response = make_update_profile_request(profileData)
+def post_profile(username, profile):
+    response = make_update_profile_request(username, profile)
     if response.status_code == 200:
         return response.json()
     else:
