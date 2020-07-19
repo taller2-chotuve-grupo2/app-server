@@ -97,7 +97,14 @@ def test_get_profile_request(mock_verify, mock_get_profile, client):
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"user": "Rich"}
     mock_get_profile.return_value.status_code = 200
-    mock_get_profile.return_value.json.return_value = '{"username":"Rich","first_name":"","last_name":"","email":"Rich@richard.son","phone":"","thumbnail":"https://ix.sysoons.com/x1/ricardo-fort.png"}'
+    mock_get_profile.return_value.json.return_value = {
+        "username": "Rich",
+        "first_name": "",
+        "last_name": "",
+        "email": "Rich@richard.son",
+        "phone": "",
+        "thumbnail": "https://ix.sysoons.com/x1/ricardo-fort.png",
+    }
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
     response = client.get("/profile/", headers=headers, follow_redirects=True)
@@ -111,7 +118,14 @@ def test_get_profile_request(mock_verify, mock_get_profile, client):
 @patch("services.auth_service.make_profile_request")
 def test_get_profile_query_request(mock_get_profile, client):
     mock_get_profile.return_value.status_code = 200
-    mock_get_profile.return_value.json.return_value = '{"username":"Rich","first_name":"","last_name":"","email":"Rich@richard.son","phone":"","thumbnail":"https://ix.sysoons.com/x1/ricardo-fort.png"}'
+    mock_get_profile.return_value.json.return_value = {
+        "username": "Rich",
+        "first_name": "",
+        "last_name": "",
+        "email": "Rich@richard.son",
+        "phone": "",
+        "thumbnail": "https://ix.sysoons.com/x1/ricardo-fort.png",
+    }
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
     response = client.get(
@@ -122,3 +136,20 @@ def test_get_profile_query_request(mock_get_profile, client):
     assert profile["username"] == "Rich"
     assert profile["email"] == "Rich@richard.son"
     assert profile["device_id"] == "123"
+
+
+@patch("services.auth_service.make_update_profile_request")
+@patch("services.auth_service.make_verify_request")
+def test_post_profile_request(mock_verify, mock_post_profile, client):
+    mock_verify.return_value.status_code = 200
+    mock_verify.return_value.json.return_value = {"user": "Rich"}
+    mock_post_profile.return_value.status_code = 200
+    mock_post_profile.return_value.json.return_value = {"msg": "OK"}
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
+    headers = {"Authorization": f"{token}"}
+    profile = {"password": "secretpass", "phone": "123423"}
+    response = client.post(
+        "/profile/", json=profile, headers=headers, follow_redirects=True
+    )
+    print(response)
+    assert response.status_code == 200

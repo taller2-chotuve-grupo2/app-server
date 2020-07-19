@@ -78,10 +78,21 @@ def profile():
         profile = auth_service.get_profile(user)
         current_app.logger.info(profile)
 
-        profile = json.loads(profile)
-
         profile["device_id"] = user_service.get_device_id(user)
 
+        return jsonify(profile), 200
+    except BaseException as e:
+        print(e)
+        return "NO USERS", 400
+
+
+@bp.route("/profile/", methods=["POST"])
+def update_profile():
+    token = request.headers.get("authorization")
+    try:
+        user = auth_service.verify_token(token)
+        current_app.logger.info(f"post profile for {user}")
+        profile = auth_service.post_profile(user)
         return jsonify(profile), 200
     except BaseException as e:
         print(e)

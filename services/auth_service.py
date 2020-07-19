@@ -10,7 +10,7 @@ register_endpoint = f"{auth_base_url}/user/"
 auth_endpoint = f"{auth_base_url}/auth/"
 
 
-def get_video_endpoint(username):
+def get_profile_endpoint(username):
     return f"{auth_base_url}/user/{username}"
 
 
@@ -51,7 +51,14 @@ def make_verify_request(token):
 
 def make_profile_request(username):
     response = requests.get(
-        get_video_endpoint(username), headers={"authorization": auth_header}
+        get_profile_endpoint(username), headers={"authorization": auth_header}
+    )
+    return response
+
+
+def make_update_profile_request(username):
+    response = requests.get(
+        get_profile_endpoint(username), headers={"authorization": auth_header}
     )
     return response
 
@@ -87,6 +94,14 @@ def verify_token(token):
 
 def get_profile(username):
     response = make_profile_request(username)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise InvalidToken
+
+
+def post_profile(profileData):
+    response = make_update_profile_request(profileData)
     if response.status_code == 200:
         return response.json()
     else:
