@@ -93,6 +93,7 @@ def reset_password():
     try:
         json_request = request.get_json()
         response = auth_service.reset_password(json_request["username"])
+        current_app.logger.info(response)
         password = response["newPassword"]
         current_app.logger.info("sending message")
         msg = Message(
@@ -104,5 +105,5 @@ def reset_password():
         current_app.logger.info(s)
         return "EMAIL SENT", 200
     except BaseException as e:
-        current_app.logger.info(e)
+        current_app.logger.error(e)
         return "ERROR RESET PASSWORD", 400
