@@ -7,8 +7,25 @@ import requests
 from flask_mail import Message
 from app import mail
 
+# Firebase
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import auth
+
+import os
+
 bp = Blueprint("auth", __name__)
 
+# Instantiate Firebase app
+firebase_credentials = {
+    "type": "service_account",
+    "project_id": os.environ['FIREBASE_PROJECT_ID'],
+    "private_key": os.environ['FIREBASE_PRIVATE_KEY'].replace('\\n', '\n'),
+    "client_email": os.environ['FIREBASE_CLIENT_EMAIL'],
+    "token_uri": os.environ['FIREBASE_TOKEN_URI']
+}
+cred = credentials.Certificate(firebase_credentials)
+firebase_admin.initialize_app(cred)
 
 @bp.route("/login/", methods=["POST", "GET"])
 def login():
@@ -114,6 +131,17 @@ def reset_password():
         )
         s = mail.send(msg)
         current_app.logger.info(s)
+
+        # Reset user's password on Firebase
+        current_app.logger.info("Resetting password for user on Firebase")
+
+        email = json_request["username"] + "@chotuve.com" # FIXME: obtener el email a partir del username
+        user = auth.get_user_by_email(email)
+        current_app.logger.debug('Successfully fetched user data: {0}'.format(user.uid))
+        user = auth.update_user(user.uid,
+            password=response["newPassword"])
+        current_app.logger.debug('Sucessfully updated user: uuid={0} - username={1} - email={2}'.format(user.uid, json_request["username"], email))
+
         return "EMAIL SENT", 200
     except BaseException as e:
         current_app.logger.error(e)
