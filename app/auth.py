@@ -13,10 +13,11 @@ from firebase_admin import credentials
 from firebase_admin import auth
 
 import os
+from os import environ
 
 bp = Blueprint("auth", __name__)
 
-if not os.environ['FIREBASE_PROJECT_ID']:
+if environ.get('FIREBASE_PROJECT_ID') is not None:
     # Instantiate Firebase app
     firebase_credentials = {
         "type": "service_account",
