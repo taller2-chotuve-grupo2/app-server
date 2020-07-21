@@ -16,15 +16,15 @@ import os
 
 bp = Blueprint("auth", __name__)
 
-# Instantiate Firebase app
-firebase_credentials = {
-    "type": "service_account",
-    "project_id": os.environ['FIREBASE_PROJECT_ID'],
-    "private_key": os.environ['FIREBASE_PRIVATE_KEY'].replace('\\n', '\n'),
-    "client_email": os.environ['FIREBASE_CLIENT_EMAIL'],
-    "token_uri": os.environ['FIREBASE_TOKEN_URI']
-}
 if not os.environ['FIREBASE_PROJECT_ID']:
+    # Instantiate Firebase app
+    firebase_credentials = {
+        "type": "service_account",
+        "project_id": os.environ['FIREBASE_PROJECT_ID'],
+        "private_key": os.environ['FIREBASE_PRIVATE_KEY'].replace('\\n', '\n'),
+        "client_email": os.environ['FIREBASE_CLIENT_EMAIL'],
+        "token_uri": os.environ['FIREBASE_TOKEN_URI']
+    }
     cred = credentials.Certificate(firebase_credentials)
     firebase_admin.initialize_app(cred)
 
