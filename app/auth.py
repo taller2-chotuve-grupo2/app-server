@@ -24,8 +24,9 @@ firebase_credentials = {
     "client_email": os.environ['FIREBASE_CLIENT_EMAIL'],
     "token_uri": os.environ['FIREBASE_TOKEN_URI']
 }
-cred = credentials.Certificate(firebase_credentials)
-firebase_admin.initialize_app(cred)
+if not os.environ['FIREBASE_PROJECT_ID']:
+    cred = credentials.Certificate(firebase_credentials)
+    firebase_admin.initialize_app(cred)
 
 @bp.route("/login/", methods=["POST", "GET"])
 def login():
