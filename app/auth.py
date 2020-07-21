@@ -134,15 +134,16 @@ def reset_password():
         s = mail.send(msg)
         current_app.logger.info(s)
 
-        # Reset user's password on Firebase
-        current_app.logger.info("Resetting password for user on Firebase")
+        if environ.get('FIREBASE_PROJECT_ID') is not None:
+            # Reset user's password on Firebase
+            current_app.logger.info("Resetting password for user on Firebase")
 
-        email = json_request["username"] + "@chotuve.com" # FIXME: obtener el email a partir del username
-        user = auth.get_user_by_email(email)
-        current_app.logger.debug('Successfully fetched user data: {0}'.format(user.uid))
-        user = auth.update_user(user.uid,
-            password=response["newPassword"])
-        current_app.logger.debug('Sucessfully updated user: uuid={0} - username={1} - email={2}'.format(user.uid, json_request["username"], email))
+            email = json_request["username"] + "@chotuve.com" # FIXME: obtener el email a partir del username
+            user = auth.get_user_by_email(email)
+            current_app.logger.debug('Successfully fetched user data: {0}'.format(user.uid))
+            user = auth.update_user(user.uid,
+                password=response["newPassword"])
+            current_app.logger.debug('Sucessfully updated user: uuid={0} - username={1} - email={2}'.format(user.uid, json_request["username"], email))
 
         return "EMAIL SENT", 200
     except BaseException as e:
