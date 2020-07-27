@@ -39,8 +39,10 @@ def login():
     device_id = None
     if "device_id" in json_request:
         device_id = json_request["device_id"]
+    id_token = request.headers.get('id-token')
+
     try:
-        response = login_user(username, password)
+        response = login_user(username, password, id_token)
         user_service.set_device_id(response["username"], device_id)
         return jsonify({"token": response["token"]}), 200
     except InvalidLogin:

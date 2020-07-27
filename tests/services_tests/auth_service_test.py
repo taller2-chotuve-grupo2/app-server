@@ -39,7 +39,7 @@ def test_login_service_returns_token(mock_auth_request):
 
     username = "RICHARD"
     password = "RICHARD"
-    obj = login_user(username, password)
+    obj = login_user(username, password, None)
     assert obj["token"] == "123"
     assert obj["username"] == "Ric"
 
@@ -51,4 +51,4 @@ def test_login_service_bad_login(mock_auth_request):
     username = "BAD_RICHARD"
     password = "BAD_RICHARD"
     with pytest.raises(InvalidLogin):
-        login_user(username, password)
+        login_user(username, password, None)
