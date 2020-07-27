@@ -45,8 +45,12 @@ def login():
         response = login_user(username, password, id_token)
         user_service.set_device_id(response["username"], device_id)
         return jsonify({"token": response["token"]}), 200
-    except InvalidLogin:
+    except InvalidLogin as e:
+        print(e)
         return "BAD LOGIN", 400
+    except BaseException as e:
+        print(e)
+        return "INTERNAL ERROR", 500
 
 
 @bp.route("/user/", methods=["POST"])
