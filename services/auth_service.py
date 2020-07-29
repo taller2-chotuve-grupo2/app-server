@@ -20,7 +20,7 @@ auth_header = "Basic YWxhZGRpbjpvcGVuc2VzYW1l"
 def make_auth_request(username, password, id_token):
     return requests.post(
         login_endpoint,
-        headers={"authorization": auth_header, "id-token": id_token}, 
+        headers={"authorization": auth_header, "id-token": id_token},
         json={"username": username, "password": password},
     )
 
@@ -72,7 +72,7 @@ def login_user(username, password, id_token):
     response = make_auth_request(username, password, id_token)
     # current_app.logger.info(response.json()["token"])
     if response.status_code == 200:
-        # Crea el user en la db si no existe, necesario para el flujo de 
+        # Crea el user en la db si no existe, necesario para el flujo de
         # login con Google la 1 vez que se loguea. Dado que no se tiene
         # username, se usa el mail sin el dominio.
         if "@" in username:

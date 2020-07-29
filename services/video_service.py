@@ -1,9 +1,38 @@
 from flask import current_app
 import requests
 
+
+def set_importance(video):
+    video["importance"] = 1
+    return video
+
+
+class Feed(object):
+    def __init__(self):
+        self.videos_importance = []
+
+    def expired(self):
+        return True
+
+    def regenerate(self, query_params):
+        current_app.logger.info("GET FEED")
+        response = make_feed_request(query_params)
+        if response.status_code == 200:
+            videos = response.json()["videos"]
+            self.videos_importance = [set_importance(video) for video in videos]
+        else:
+            raise BaseException
+
+    def videosSortedImportance(self):
+        # current_app.logger.info(self.videos_importance)
+        return self.videos_importance
+        # return self.videos_importance.sort(key=lambda video: video["importance"])
+
+
 media_base_url = "https://media-server-staging-fiuba.herokuapp.com"
 post_video_endpoint = f"{media_base_url}/resource/"
 get_feed_endpoint = f"{media_base_url}/resource/"
+feed = Feed()
 
 
 def get_video_endpoint(id):
@@ -66,12 +95,20 @@ def upload_video(data):
 
 
 def get_feed(user, query_params):
-    response = make_feed_request(query_params)
-    current_app.logger.info("GET FEED")
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise BaseException
+    if feed.expired():
+        feed.regenerate(query_params)
+    # current_app.logger.info(feed.videos_importance)
+    return feed.videosSortedImportance()
+    # return feed.videos_importance
+    # response = make_feed_request(query_params)
+    # videos = response.json()
+    # videos_importance = [set_importance(video) for video in videos["result"]]
+    # current_app.logger.info(videos_importance)
+    # current_app.logger.info("GET FEED")
+    # if response.status_code == 200:
+    #     return response.json()
+    # else:
+    #     raise BaseException
 
 
 def get_video(id, username=""):
