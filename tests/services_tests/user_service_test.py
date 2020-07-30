@@ -45,7 +45,7 @@ def test_accept_contact_request():
 def test_list_available_users():
     contact2 = user_repository.save_user("Charles")
     user_list = user_service.list_users()
-    assert len(user_list) == 4
+    assert len(user_list) == 8
     user_list = user_service.list_users("Charles")
     assert len(user_list) == 1
 

@@ -1,4 +1,4 @@
-from services import video_service
+from services import video_service, user_service
 from flask import current_app
 import pandas as pd
 from business_rules import run_all
@@ -9,7 +9,8 @@ class Video:
     def __init__(self, args):
         print(args)
         self.id = args["id"]
-        # self.title = args["title"]
+        self.title = args["title"]
+        self.owner = args["owner"]
         self.videos_by_user = args["videosByUser"]
         self.likes_count = args["likesCount"]
         self.dislikes_count = args["dislikesCount"]
@@ -32,11 +33,12 @@ class Feed(object):
         response = video_service.make_feed_request(query_params)
         if response.status_code == 200:
             videos_feed = response.json()
-            # res = json.loads(videos)
             df = pd.DataFrame(videos_feed)
             df["videosByUser"] = df["owner"].groupby(df["owner"]).transform("count")
             videos = [Video(kwargs) for kwargs in df.to_dict(orient="records")]
             for video in videos:
+                owner = user_service.find_by_username(video.owner)
+                video.contacts_count = len(user_service.get_friends(owner))
                 run_all(
                     rule_list=rules,
                     defined_variables=VideoVariables(video),

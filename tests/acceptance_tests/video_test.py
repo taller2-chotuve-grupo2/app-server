@@ -39,7 +39,6 @@ def test_get_feed_with_valid_token(mock_verify, mock_feed, client):
     mock_verify.return_value.json.return_value = {"user": "RIC"}
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
-    data = dict(title="video1")
     response = client.get(
         "/video/",
         headers=headers,
