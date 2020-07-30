@@ -29,6 +29,7 @@ def test_upload_video_service_status_400(mock_upload_request):
     mock_upload_request.return_value.json.return_value = {"message": "Owner Required"}
 
     data = {
+        "id": "1",
         "name": "nuevovideo.mp4",
         "path": "www.google.com",
         "size": "35M",
@@ -45,6 +46,7 @@ def test_upload_video_service_status_400(mock_upload_request):
 def test_get_feed_video_service_status_200(mock_feed_request):
     mock_feed_request.return_value.status_code = 200
     data = {
+        "id": "1",
         "name": "nuevovideo.mp4",
         "path": "www.google.com",
         "size": "35M",

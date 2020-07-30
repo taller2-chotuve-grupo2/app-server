@@ -33,6 +33,7 @@ def test_upload_video_with_valid_token(mock_verify, mock_upload, client):
 def test_get_feed_with_valid_token(mock_verify, mock_feed, client):
     mock_feed.return_value.status_code = 200
     data = {
+        "id": "1",
         "name": "nuevovideo.mp4",
         "path": "www.google.com",
         "size": "35M",
