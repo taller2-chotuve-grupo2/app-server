@@ -22,6 +22,10 @@ class VideoVariables(BaseVariables):
     def comments_by_video(self):
         return self.video.comments_count
 
+    @numeric_rule_variable
+    def contacts_by_user(self):
+        return self.video.contacts_count
+
 
 class VideoActions(BaseActions):
     def __init__(self, video):
@@ -97,11 +101,17 @@ def make_rule(variable, limits, importance):
     ]
 
 
+rule_contacts = make_rule(
+    "contacts_by_user", make_limit(2, 4), make_importance(1, 3, 6)
+)
 rule_videos = make_rule("videos_by_user", make_limit(2, 4), make_importance(1, 3, 5))
+rule_comment = make_rule(
+    "comments_by_video", make_limit(2, 5), make_importance(1, 3, 5)
+)
 rule_like = make_rule("likes_by_video", make_limit(2, 5), make_importance(1, 3, 5))
 rule_dislike = make_rule(
-    "dislikes_by_video", make_limit(3, 5), make_importance(0, -2, 4)
+    "dislikes_by_video", make_limit(3, 5), make_importance(0, -2, -4)
 )
 
 
-rules = rule_videos + rule_like + rule_dislike
+rules = rule_videos + rule_like + rule_dislike + rule_contacts + rule_comment

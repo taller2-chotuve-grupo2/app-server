@@ -27,7 +27,7 @@ def feed():
         current_app.logger.info("RIC")
         user = auth_service.verify_token(token)
         videos = video_service.get_feed(user, request.args)
-        return jsonify("videos", videos), 200
+        return jsonify(videos), 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
 

@@ -20,6 +20,12 @@ class Video:
         return self.importance
 
 
+def updateVideosWithCount(videos):
+    df = pd.DataFrame(videos)
+    df["videosByUser"] = df["owner"].groupby(df["owner"]).transform("count")
+    return [Video(kwargs) for kwargs in df.to_dict(orient="records")]
+
+
 class Feed(object):
     def __init__(self):
         self.videos_importance = []
@@ -32,10 +38,7 @@ class Feed(object):
         response = video_service.make_feed_request(query_params)
         if response.status_code == 200:
             videos_feed = response.json()
-            df = pd.DataFrame(videos_feed)
-            df["videosByUser"] = df["owner"].groupby(df["owner"]).transform("count")
-            videos = [Video(kwargs) for kwargs in df.to_dict(orient="records")]
-            print(videos)
+            videos = updateVideosWithCount(videos_feed)
             for video in videos:
                 contacts_count = 0
                 try:
@@ -59,6 +62,4 @@ class Feed(object):
             raise BaseException
 
     def videosSortedImportance(self):
-        # current_app.logger.info(self.videos_importance)
         return self.videos_importance
-        # return self.videos_importance.sort(key=lambda video: video["importance"])
