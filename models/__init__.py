@@ -7,7 +7,6 @@ from rules import VideoActions, VideoVariables, rules
 
 class Video:
     def __init__(self, args):
-        print(args)
         self.id = args["id"]
         self.title = args["title"]
         self.owner = args["owner"]
@@ -36,9 +35,16 @@ class Feed(object):
             df = pd.DataFrame(videos_feed)
             df["videosByUser"] = df["owner"].groupby(df["owner"]).transform("count")
             videos = [Video(kwargs) for kwargs in df.to_dict(orient="records")]
+            print(videos)
             for video in videos:
-                owner = user_service.find_by_username(video.owner)
-                video.contacts_count = len(user_service.get_friends(owner))
+                contacts_count = 0
+                try:
+                    owner = user_service.find_by_username(video.owner)
+                    contacts_count = len(user_service.get_friends(owner))
+                except Exception as e:
+                    print("NO OWNER REGISTERED")
+                finally:
+                    video.contacts_count = contacts_count
                 run_all(
                     rule_list=rules,
                     defined_variables=VideoVariables(video),
@@ -53,6 +59,6 @@ class Feed(object):
             raise BaseException
 
     def videosSortedImportance(self):
-        current_app.logger.info(self.videos_importance)
+        # current_app.logger.info(self.videos_importance)
         return self.videos_importance
         # return self.videos_importance.sort(key=lambda video: video["importance"])

@@ -5,7 +5,7 @@ from models import Feed
 
 media_base_url = "https://media-server-staging-fiuba.herokuapp.com"
 post_video_endpoint = f"{media_base_url}/resource/"
-get_feed_endpoint = f"{media_base_url}/resource/"
+get_feed_endpoint = f"{media_base_url}/resource/feed"
 feed = Feed()
 
 
