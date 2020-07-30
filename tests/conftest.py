@@ -32,11 +32,21 @@ def db(app):
     u1.add_friend(u3)
     u3.accept_friend(u1)
 
-    user_repository.save_user("admin", "123")
-    user_repository.save_user("admin1005", "123")
-    user_repository.save_user("tbotalla@fi.uba.ar", "123")
-    user_repository.save_user("admin9", "123")
+    u1 = user_repository.save_user("admin", "123")
+    u2 = user_repository.save_user("admin1005", "123")
+    u3 = user_repository.save_user("tbotalla@fi.uba.ar", "123")
+    u4 = user_repository.save_user("admin9", "123")
 
+    u1.add_friend(u2)
+    u1.add_friend(u3)
+    u1.add_friend(u4)
+
+    u2.add_friend(u3)
+
+    u2.accept_friend(u1)
+    u4.accept_friend(u1)
+    u3.accept_friend(u1)
+    u3.accept_friend(u2)
     yield _db
 
     _db.drop_all()
