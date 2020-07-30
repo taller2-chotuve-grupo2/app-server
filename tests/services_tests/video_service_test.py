@@ -2,6 +2,7 @@ from unittest.mock import Mock, patch
 from services import video_service
 import requests
 import pytest
+from tests import fakedata
 
 
 @patch("services.video_service.make_upload_video_request")
@@ -45,24 +46,14 @@ def test_upload_video_service_status_400(mock_upload_request):
 @patch("services.video_service.make_feed_request")
 def test_get_feed_video_service_status_200(mock_feed_request):
     mock_feed_request.return_value.status_code = 200
-    data = {
-        "id": "1",
-        "name": "nuevovideo.mp4",
-        "path": "www.google.com",
-        "size": "35M",
-        "title": "Gran video de Ricson",
-        "description": "Uno de los grandes videos de ricson",
-        "location": "Ricland",
-        "owner": "RICH",
-        "visibility": "public",
-    }
+    data = fakedata.feed
 
-    mock_feed_request.return_value.json.return_value = {"videos": [data, data]}
+    mock_feed_request.return_value.json.return_value = data
     user = {"name": "ric", "id": "1"}
 
     videos = video_service.get_feed(user, {})
     print(videos)
-    assert len(videos) == 2
+    assert len(videos) == 14
 
 
 @patch("services.video_service.make_get_video_request")

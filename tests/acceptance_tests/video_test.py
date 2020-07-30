@@ -1,4 +1,5 @@
 from unittest.mock import Mock, patch
+from tests import fakedata
 
 
 @patch("services.auth_service.make_verify_request")
@@ -32,18 +33,8 @@ def test_upload_video_with_valid_token(mock_verify, mock_upload, client):
 @patch("services.auth_service.make_verify_request")
 def test_get_feed_with_valid_token(mock_verify, mock_feed, client):
     mock_feed.return_value.status_code = 200
-    data = {
-        "id": "1",
-        "name": "nuevovideo.mp4",
-        "path": "www.google.com",
-        "size": "35M",
-        "title": "Gran video de Ricson",
-        "description": "Uno de los grandes videos de ricson",
-        "location": "Ricland",
-        "owner": "RICH",
-        "visibility": "public",
-    }
-    mock_feed.return_value.json.return_value = {"videos": [data, data]}
+    data = fakedata.feed
+    mock_feed.return_value.json.return_value = data
     mock_verify.return_value.status_code = 200
     mock_verify.return_value.json.return_value = {"user": "RIC"}
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"

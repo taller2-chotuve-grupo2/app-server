@@ -48,3 +48,9 @@ def test_list_available_users():
     assert len(user_list) == 4
     user_list = user_service.list_users("Charles")
     assert len(user_list) == 1
+
+
+def test_get_contacts_by_user():
+    contact = user_repository.find_by_username("Ricson")
+    friends_contact2 = user_service.get_friends(contact)
+    assert len(friends_contact2) == 1
