@@ -195,5 +195,19 @@ def test_get_video_by_user_with_valid_token(mock_verify, mock_get_feed, client):
         content_type="application/json",
         follow_redirects=True,
     )
+    response_desired = [
+        {
+            "id": "37bfb94e-8a2a-4bfa-8d42-5f1c44fa7dbb",
+            "title": "un video",
+            "owner": "admin1005",
+            "videos_by_user": 1,
+            "likes_count": 1,
+            "dislikes_count": 0,
+            "comments_count": 1,
+            "importance": 0,
+            "createdAt": "2020-07-19T04:01:37.037Z",
+            "thumbnail": "asd",
+        }
+    ]
     assert response.status_code == 200
-    assert response.json == video_data
+    assert response.json == response_desired

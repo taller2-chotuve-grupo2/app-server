@@ -113,8 +113,8 @@ def get_videos_by_username(username, private=False):
     response = make_feed_request(query_params)
     videos_feed = response.json()
     videos = updateVideosWithCount(videos_feed)
-    print(videos)
+    videos = [video.__dict__ for video in videos]
     if response.status_code == 200:
-        return response.json()
+        return videos
     else:
         raise BaseException
