@@ -88,7 +88,7 @@ def get_video_by_user(username):
         user = auth_service.verify_token(token)
         contact_from = user_service.find_by_username(user)
         contact_to = user_service.find_by_username(username)
-        reaction_data = request.args
+        # reaction_data = request.args
         private = False
         if user_service.are_friends(contact_from, contact_to):
             private = True

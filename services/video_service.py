@@ -1,7 +1,7 @@
 from flask import current_app
 import requests
 import json
-from models import Feed
+from models import Feed, updateVideosWithCount
 
 media_base_url = "https://media-server-staging-fiuba.herokuapp.com"
 post_video_endpoint = f"{media_base_url}/resource/"
@@ -111,6 +111,9 @@ def get_videos_by_username(username, private=False):
     if private:
         query_params["visibility"] = "private"
     response = make_feed_request(query_params)
+    videos_feed = response.json()
+    videos = updateVideosWithCount(videos_feed)
+    print(videos)
     if response.status_code == 200:
         return response.json()
     else:

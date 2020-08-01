@@ -175,16 +175,16 @@ def test_get_video_by_user_with_valid_token(mock_verify, mock_get_feed, client):
     mock_verify.return_value.json.return_value = {"user": "Rich"}
     mock_get_feed.return_value.status_code = 200
     data = {
-        "name": "nuevovideo.mp4",
-        "path": "www.google.com",
-        "size": "35M",
-        "title": "Gran video de Ricson",
-        "description": "Uno de los grandes videos de ricson",
-        "location": "Ricland",
-        "owner": "RICH",
-        "visibility": "public",
+        "id": "37bfb94e-8a2a-4bfa-8d42-5f1c44fa7dbb",
+        "owner": "admin1005",
+        "createdAt": "2020-07-19T04:01:37.037Z",
+        "thumbnail": "asd",
+        "title": "un video",
+        "likesCount": 1,
+        "dislikesCount": 0,
+        "commentsCount": 1,
     }
-    video_data = {"videos": [data, data]}
+    video_data = [data]
     mock_get_feed.return_value.json.return_value = video_data
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg5MDg3MDQyfQ.6g8IcVXhfJ7nSIWSodqhC-wbNnoWkEW3MEY4pdrbpMg"
     headers = {"Authorization": f"{token}"}
