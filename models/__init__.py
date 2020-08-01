@@ -15,6 +15,8 @@ class Video:
         self.dislikes_count = args["dislikesCount"]
         self.comments_count = args["commentsCount"]
         self.importance = 0
+        self.createdAt = args["createdAt"]
+        self.thumbnail = args["thumbnail"]
 
     def __str__(self):
         return self.importance

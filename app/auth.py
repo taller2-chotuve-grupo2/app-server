@@ -65,7 +65,6 @@ def register():
             username = json_request["username"]
             password = json_request["password"]
             email = json_request["email"]
-            print(json_request)
             register_user(username, password, email)
             return "OK", 200
     except InvalidRegister as e:
