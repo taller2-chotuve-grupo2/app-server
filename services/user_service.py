@@ -36,7 +36,12 @@ def get_friend_pending_requests(contact):
 
 
 def get_device_id(username):
-    return user_repository.find_by_username(username).device_id
+    try:
+        id = user_repository.find_by_username(username).device_id
+    except:
+        return None
+
+    return id
 
 
 def set_device_id(username, device_id):

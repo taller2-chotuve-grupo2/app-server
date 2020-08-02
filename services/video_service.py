@@ -21,11 +21,20 @@ def reaction_endpoint(id):
     return f"{media_base_url}/resource/{id}/reaction/"
 
 
+def media_info_endpoint(username):
+    return f"{media_base_url}/owners/{username}"
+
+
 auth_header = {"authorization": "Basic YWxhZGRpbjpvcGVuc2VzYW1l"}
 
 
 def make_upload_video_request(data):
     response = requests.post(post_video_endpoint, headers=auth_header, json=data)
+    return response
+
+
+def make_media_info_request(username):
+    response = requests.get(media_info_endpoint(username), headers=auth_header)
     return response
 
 
@@ -116,5 +125,14 @@ def get_videos_by_username(username, private=False):
     videos = [video.__dict__ for video in videos]
     if response.status_code == 200:
         return videos
+    else:
+        raise BaseException
+
+
+def get_media_info(username):
+    response = make_media_info_request(username)
+    media_info = response.json()
+    if response.status_code == 200:
+        return media_info
     else:
         raise BaseException
