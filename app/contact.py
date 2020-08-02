@@ -56,6 +56,21 @@ def pending_contacts():
         return "NO USERS", 400
 
 
+@bp.route("/contacts/requests/", methods=["GET"])
+def pending_contacts_requests():
+    token = request.headers.get("authorization")
+    try:
+        user = auth_service.verify_token(token)
+        contact_from = user_service.find_by_username(user)
+        pendings = user_service.get_friend_pending_requests(contact_from)
+        pendings_dict = [{"username": u.username} for u in pendings]
+        current_app.logger.info(pendings)
+        return jsonify(pendings_dict), 200
+    except BaseException as e:
+        print(e)
+        return "NO USERS", 400
+
+
 @bp.route("/contacts/accept/", methods=["POST"])
 def accept_contact():
     token = request.headers.get("authorization")

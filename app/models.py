@@ -40,6 +40,14 @@ class User(db.Model):
         viewonly=True,
     )
 
+    pending_friends_requests = relationship(
+        "User",
+        secondary="friendships",
+        primaryjoin=id == Friendship.friend_a,
+        secondaryjoin=((id == Friendship.friend_b) & (Friendship.status == "pending")),
+        viewonly=True,
+    )
+
     friends_a_accepted = relationship(
         "User",
         secondary="friendships",

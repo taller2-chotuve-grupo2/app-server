@@ -31,6 +31,10 @@ def get_friend_requests(contact):
     return contact.pending_friends
 
 
+def get_friend_pending_requests(contact):
+    return contact.pending_friends_requests
+
+
 def get_device_id(username):
     return user_repository.find_by_username(username).device_id
 
