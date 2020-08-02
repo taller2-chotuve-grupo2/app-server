@@ -16,7 +16,10 @@ class Video:
         self.dislikes_count = args["dislikesCount"]
         self.comments_count = args["commentsCount"]
         self.importance = 0
-        self.createdAt = args["createdAt"]
+        self.createdAt = dt.datetime.strptime(
+            args["createdAt"].split("T")[0], "%Y-%m-%d"
+        )
+        self.days_difference = (dt.datetime.now() - self.createdAt).days
         self.thumbnail = args["thumbnail"]
 
     def __str__(self):
