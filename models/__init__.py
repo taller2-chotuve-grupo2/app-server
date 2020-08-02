@@ -1,6 +1,7 @@
 from services import video_service, user_service
 from flask import current_app
 import pandas as pd
+import datetime as dt
 from business_rules import run_all
 from rules import VideoActions, VideoVariables, rules
 
@@ -31,9 +32,15 @@ def updateVideosWithCount(videos):
 class Feed(object):
     def __init__(self):
         self.videos_importance = []
+        self.cache_time = dt.datetime(2019, 1, 1)
+        self.cache_ttl = 4 * 60
 
     def expired(self):
-        return True
+        difference = dt.datetime.now() - self.cache_time
+        if difference.seconds > self.cache_ttl:
+            return True
+        else:
+            return False
 
     def regenerate(self, query_params):
         current_app.logger.info("GET FEED")
@@ -50,6 +57,7 @@ class Feed(object):
                     print("NO OWNER REGISTERED")
                 finally:
                     video.contacts_count = contacts_count
+                    self.cache_time = dt.datetime.now()
                 run_all(
                     rule_list=rules,
                     defined_variables=VideoVariables(video),
