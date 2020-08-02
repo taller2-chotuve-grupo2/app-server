@@ -205,7 +205,8 @@ def test_get_video_by_user_with_valid_token(mock_verify, mock_get_feed, client):
             "dislikes_count": 0,
             "comments_count": 1,
             "importance": 0,
-            "createdAt": "2020-07-19T04:01:37.037Z",
+            "createdAt": "Sun, 19 Jul 2020 00:00:00 GMT",
+            "days_difference": 14,
             "thumbnail": "asd",
         }
     ]
