@@ -45,7 +45,7 @@ class Feed(object):
         else:
             return False
 
-    def regenerate(self, query_params):
+    def regenerate(self, query_params={}):
         current_app.logger.info("GET FEED")
         response = video_service.make_feed_request(query_params)
         if response.status_code == 200:
