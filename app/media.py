@@ -24,8 +24,8 @@ def upload():
 def regenerate_feed():
     token = request.headers.get("authorization")
     try:
-        user = auth_service.verify_token(token)
-        video_id = video_service.regenerate_feed()
+        auth_service.verify_token(token)
+        video_service.regenerate_feed()
         return "OK", 200
     except InvalidToken:
         return "UNAUTHORIZED", 403
