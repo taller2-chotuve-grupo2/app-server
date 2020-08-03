@@ -83,6 +83,10 @@ def get_feed(user, query_params):
     return feed.videosSortedImportance()
 
 
+def regenerate_feed():
+    feed.regenerate()
+
+
 def get_video(id, username=""):
     response = make_get_video_request(id, username)
     if response.status_code == 200:

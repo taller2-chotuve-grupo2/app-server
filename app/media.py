@@ -20,6 +20,17 @@ def upload():
         return "UNAUTHORIZED", 403
 
 
+@bp.route("/video/regenerate/", methods=["POST"])
+def regenerate_feed():
+    token = request.headers.get("authorization")
+    try:
+        user = auth_service.verify_token(token)
+        video_id = video_service.regenerate_feed()
+        return "OK", 200
+    except InvalidToken:
+        return "UNAUTHORIZED", 403
+
+
 @bp.route("/video/", methods=["GET"])
 def feed():
     token = request.headers.get("authorization")

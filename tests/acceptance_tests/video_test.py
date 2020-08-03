@@ -1,5 +1,6 @@
 from unittest.mock import Mock, patch
 from tests import fakedata
+import datetime as dt
 
 
 @patch("services.auth_service.make_verify_request")
@@ -206,7 +207,7 @@ def test_get_video_by_user_with_valid_token(mock_verify, mock_get_feed, client):
             "comments_count": 1,
             "importance": 0,
             "createdAt": "Sun, 19 Jul 2020 00:00:00 GMT",
-            "days_difference": 14,
+            "days_difference": (dt.datetime.now() - dt.datetime(2020, 7, 19)).days,
             "thumbnail": "asd",
         }
     ]
